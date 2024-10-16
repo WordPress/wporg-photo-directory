@@ -1,0 +1,25 @@
+{
+	"name": "wporg-photo-directory",
+	"version": "1.0.0",
+	"description": "The codebase and development environment for the WordPress.org Photo Directory.",
+	"author": "WordPress.org",
+	"license": "GPL-2.0-or-later",
+	"private": true,
+	"devDependencies": {
+		"@wordpress/env": "10.9.0",
+		"@wordpress/scripts": "30.1.0"
+	},
+	"scripts": {
+		"setup:tools": "npm install && composer install && TEXTDOMAIN=wporg-photos composer exec update-configs",
+		"setup:wp": "wp-env run cli bash env/setup.sh",
+		"build:theme": "npm run build --workspace=wporg-photos-2024",
+		"start:theme": "npm run start --workspace=wporg-photos-2024",
+		"update:tools": "composer update && TEXTDOMAIN=wporg-photos composer exec update-configs",
+		"wp-env": "wp-env",
+		"lint:php": "composer lint ./source/wp-content/themes/wporg-photos-2024",
+		"format:php": "composer format ./source/wp-content/themes/wporg-photos-2024"
+	},
+	"workspaces": [
+		"source/wp-content/themes/wporg-photos-2024"
+	]
+}
