@@ -10,3 +10,18 @@
 	border-radius: 2px;
 	box-shadow: 0 0 0 1.5px currentColor;
 }
+
+/* Keep the border radius on grid items focus. */
+.wp-block-wporg-link-wrapper:focus-visible {
+	border-radius: 2px;
+}
+
+/* Add hover state to the grid items. */
+.wp-block-wporg-link-wrapper:hover .has-border-color {
+	border-color: var(--wp--preset--color--charcoal-1) !important;
+}
+
+/* Prevent extra margin on pagination. */
+.wp-block-query-pagination.wp-block-query-pagination {
+	margin-bottom: 0;
+}
