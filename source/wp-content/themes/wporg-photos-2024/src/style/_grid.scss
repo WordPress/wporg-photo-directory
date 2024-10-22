@@ -1,0 +1,12 @@
+/* Adjust the photos grid down to 3 and 2 columns at breakpoitns */
+@media (max-width: 1280px) {
+	.wp-block-post-template.is-layout-grid.columns-4 {
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+	}
+}
+
+@media (max-width: 782px) {
+	.wp-block-post-template.is-layout-grid.columns-4 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
