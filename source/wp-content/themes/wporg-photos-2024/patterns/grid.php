@@ -22,6 +22,9 @@
 
 		<!-- wp:group {"style":{"spacing":{"blockGap":"0"}},"layout":{"type":"flex","flexWrap":"nowrap"},"className":"wporg-query-filters"} -->
 		<div class="wp-block-group wporg-query-filters">
+			<!-- wp:wporg/query-filter {"key":"category","multiple":false} /-->
+			<!-- wp:wporg/query-filter {"key":"color"} /-->
+			<!-- wp:wporg/query-filter {"key":"orientation","multiple":false} /-->
 		</div>
 		<!-- /wp:group -->
 	</div>

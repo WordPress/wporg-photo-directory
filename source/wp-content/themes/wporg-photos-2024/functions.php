@@ -64,9 +64,7 @@ function pre_get_posts( $query ) {
 		return;
 	}
 
-	if ( is_home() || is_author() ) {
-		$query->set( 'post_type', get_photo_post_type() );
-	}
+	$query->set( 'post_type', get_photo_post_type() );
 }
 
 /**
@@ -84,4 +82,19 @@ function override_template_hierarchy( $templates ) {
 	}
 
 	return $templates;
+}
+
+/**
+ * Get the selected terms from the current query.
+ *
+ * @return array
+ */
+function get_query_terms( $query_var ) {
+	global $wp_query;
+	$terms = isset( $wp_query->query[ $query_var ] ) ? $wp_query->query[ $query_var ] : array();
+	if ( is_string( $terms ) ) {
+		$terms = explode( '+', $terms );
+	}
+
+	return $terms;
 }
