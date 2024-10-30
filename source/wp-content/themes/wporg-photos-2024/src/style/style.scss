@@ -32,3 +32,9 @@
 h1.screen-reader-text + .wp-block-post-template {
 	margin-top: 0;
 }
+
+/* Style the "Alt text" label. */
+.wporg-alt-text-label {
+	font-weight: 700;
+	user-select: none;
+}

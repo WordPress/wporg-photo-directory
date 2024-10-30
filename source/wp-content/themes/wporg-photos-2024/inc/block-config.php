@@ -6,7 +6,7 @@
 namespace WordPressdotorg\Theme\Photo_Directory_2024\Block_Config;
 
 use WordPressdotorg\Photo_Directory;
-use function WordPressdotorg\Theme\Photo_Directory_2024\get_query_terms;
+use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_query_terms};
 
 // Actions & filters.
 add_filter( 'wporg_query_total_label', __NAMESPACE__ . '\update_query_total_label', 10, 2 );
@@ -16,6 +16,7 @@ add_filter( 'wporg_query_filter_options_color', __NAMESPACE__ . '\get_color_opti
 add_filter( 'wporg_query_filter_options_orientation', __NAMESPACE__ . '\get_orientation_options' );
 add_action( 'wporg_query_filter_in_form', __NAMESPACE__ . '\inject_other_filters', 10, 2 );
 add_filter( 'render_block_wporg/link-wrapper', __NAMESPACE__ . '\inject_permalink_link_wrapper' );
+add_filter( 'render_block_core/post-content', __NAMESPACE__ . '\inject_alt_text_label' );
 
 /**
  * Update the query total label to reflect "photos" found.
@@ -221,4 +222,23 @@ function inject_other_filters( $key, $block ) {
  */
 function inject_permalink_link_wrapper( $block_content ) {
 	return str_replace( 'href=""', 'href="' . get_permalink() . '"', $block_content );
+}
+
+/**
+ * Add an "Alt text" label in the post content block on photos.
+ *
+ * @param string $block_content The block content.
+ *
+ * @return array The updated block.
+ */
+function inject_alt_text_label( $block_content ) {
+	if ( ! is_singular( get_photo_post_type() ) ) {
+		return $block_content;
+	}
+
+	$alt_text_label = sprintf(
+		'<span class="wporg-alt-text-label">%s</span> ',
+		__( 'Alternative Text:', 'wporg-photos' )
+	);
+	return str_replace( '<p>', '<p>' . $alt_text_label, $block_content );
 }
