@@ -51,10 +51,6 @@ $description = sprintf(
 </div>
 <!-- /wp:group -->
 
-<!-- wp:wporg/language-suggest {"align":"full"} -->
-<div class="wp-block-wporg-language-suggest alignfull"></div>
-<!-- /wp:wporg/language-suggest -->
-
 <!-- wp:spacer {"height":"var:preset|spacing|40"} -->
 <div style="height:var(--wp--preset--spacing--40)" aria-hidden="true" class="wp-block-spacer"></div>
 <!-- /wp:spacer -->
