@@ -65,7 +65,9 @@ function pre_get_posts( $query ) {
 		return;
 	}
 
-	$query->set( 'post_type', get_photo_post_type() );
+	if ( ! $query->is_singular() ) {
+		$query->set( 'post_type', get_photo_post_type() );
+	}
 
 	// Update `photo_color` taxonomy queries to use `AND` operator.
 	$tax_query = isset( $query->tax_query->queries ) ? $query->tax_query->queries : [];
