@@ -46,7 +46,7 @@
 <div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--30)">
 	<!-- wp:post-content /-->
 
-	<!-- wp:columns -->
+	<!-- wp:columns {"style":{"spacing":{"blockGap":{"left":"var:preset|spacing|40"}}}} -->
 	<div class="wp-block-columns">
 		<!-- wp:column -->
 		<div class="wp-block-column">
@@ -56,31 +56,19 @@
 		
 			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}}} -->
 			<div class="wp-block-group">
-				<!-- wp:paragraph -->
-				<p>[block]</p>
-				<!-- /wp:paragraph -->
-
-				<!-- wp:post-terms {"term":"photo_tag","prefix":"Tags "} /-->
-
-				<!-- wp:post-terms {"term":"photo_category","prefix":"Category "} /-->
-
-				<!-- wp:post-terms {"term":"photo_color","prefix":"Color "} /-->
-
-				<!-- wp:post-terms {"term":"photo_orientation","prefix":"Orientation "} /-->
+				<!-- wp:wporg/meta-list {"meta":["post.post_date","other.dimensions","taxonomy.photo_color","taxonomy.photo_category","taxonomy.photo_orientation","taxonomy.photo_tag"]} /-->
 			</div>
 			<!-- /wp:group -->
 		</div>
 		<!-- /wp:column -->
 
-		<!-- wp:column -->
-		<div class="wp-block-column">
+		<!-- wp:column {"width":"35%"} -->
+		<div class="wp-block-column" style="flex-basis:35%">
 			<!-- wp:heading {"fontSize":"heading-6"} -->
 			<h2 class="wp-block-heading has-heading-6-font-size">EXIF data</h2>
 			<!-- /wp:heading -->
 
-			<!-- wp:paragraph -->
-			<p>[block]</p>
-			<!-- /wp:paragraph -->
+			<!-- wp:wporg/meta-list {"meta":["exif.aperture","exif.focal_length","exif.iso","exif.shutter_speed"],"className":"is-style-has-border"} /-->
 		</div>
 		<!-- /wp:column -->
 	</div>

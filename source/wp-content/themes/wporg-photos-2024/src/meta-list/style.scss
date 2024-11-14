@@ -1,0 +1,45 @@
+.wp-block-wporg-meta-list {
+	line-height: var(--wp--custom--body--short-text--typography--line-height);
+
+	> ul {
+		list-style: none;
+		margin-block: 0;
+		padding-inline-start: 0;
+
+		display: grid;
+		gap: var(--wp--preset--spacing--10) var(--wp--preset--spacing--30);
+		grid-template-columns: [column-1] max-content [column-2] 1fr;
+
+		li {
+			grid-column: span 2;
+			display: grid;
+			grid-template-columns: subgrid;
+		}
+	}
+
+	&.is-style-has-border {
+		> ul {
+			display: initial;
+
+			li {
+				display: flex;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				gap: var(--wp--preset--spacing--10);
+				padding-inline: var(--wp--preset--spacing--20);
+				padding-block: var(--wp--preset--spacing--10);
+				border-width: 0 1px 1px;
+				border-style: solid;
+				border-color: var(--wp--preset--color--light-grey-1);
+
+				&:first-of-type {
+					border-top-width: 1px;
+				}
+			}
+
+			span + span {
+				color: var(--wp--preset--color--charcoal-4);
+			}
+		}
+	}
+}
