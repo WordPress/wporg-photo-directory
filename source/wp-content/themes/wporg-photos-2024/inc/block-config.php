@@ -17,6 +17,8 @@ add_filter( 'wporg_query_filter_options_orientation', __NAMESPACE__ . '\get_orie
 add_action( 'wporg_query_filter_in_form', __NAMESPACE__ . '\inject_other_filters', 10, 2 );
 add_filter( 'render_block_wporg/link-wrapper', __NAMESPACE__ . '\inject_permalink_link_wrapper' );
 add_filter( 'render_block_core/post-content', __NAMESPACE__ . '\inject_alt_text_label' );
+add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_alt_text', 10, 3 );
+add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_sizes', 10, 3 );
 
 /**
  * Update the query total label to reflect "photos" found.
@@ -218,7 +220,7 @@ function inject_other_filters( $key, $block ) {
  *
  * @param string $block_content The block content.
  *
- * @return array The updated block.
+ * @return string The updated block.
  */
 function inject_permalink_link_wrapper( $block_content ) {
 	return str_replace( 'href=""', 'href="' . get_permalink() . '"', $block_content );
@@ -229,7 +231,7 @@ function inject_permalink_link_wrapper( $block_content ) {
  *
  * @param string $block_content The block content.
  *
- * @return array The updated block.
+ * @return string The updated block.
  */
 function inject_alt_text_label( $block_content ) {
 	if ( ! is_singular( get_photo_post_type() ) ) {
@@ -241,4 +243,62 @@ function inject_alt_text_label( $block_content ) {
 		__( 'Alternative Text:', 'wporg-photos' )
 	);
 	return str_replace( '<p>', '<p>' . $alt_text_label, $block_content );
+}
+
+/**
+ * Add the alt text (post content) to the image tag (featured image).
+ *
+ * @param string   $block_content The block content.
+ * @param array    $block         The full block, including name and attributes.
+ * @param WP_Block $instance      The block instance.
+ *
+ * @return string The updated block.
+ */
+function inject_img_alt_text( $block_content, $block, $instance ) {
+	$post_id = $instance->context['postId'];
+
+	$html = \WP_HTML_Processor::create_fragment( $block_content );
+	if ( $html->next_tag( array( 'tag_name' => 'IMG' ) ) ) {
+		$alt_text = get_the_content( '', '', $post_id );
+		$html->set_attribute( 'alt', esc_attr( $alt_text ) );
+	}
+
+	return (string) $html;
+}
+
+/**
+ * Fix the featured image size hints on archive pages to match the real grid sizes.
+ *
+ * @param string   $block_content The block content.
+ * @param array    $block         The full block, including name and attributes.
+ * @param WP_Block $instance      The block instance.
+ *
+ * @return string The updated block.
+ */
+function inject_img_sizes( $block_content, $block, $instance ) {
+	if ( is_singular() ) {
+		// Single photos can use the default sizes, which assumes the image will be full-width (it is).
+		return $block_content;
+	}
+
+	$post_id = $instance->context['postId'];
+
+	$html = \WP_HTML_Processor::create_fragment( $block_content );
+	$sizes = [
+		'(max-width: 600px) calc(100dvw - 40px - 2px)', // 1 column, 2*20px edge spacing, 2px border.
+		'(max-width: 782px) calc(50dvw - 30px - 2px)', // 2 column, 2*20px edge spacing, 20px gap, 2px border.
+		'(max-width: 890px) calc(33.33dvw - 26.67px - 2px)', // 3 columns, 2*20px edge spacing, 2*20px gap, 2px border.
+		'(max-width: 1280px) calc(33.33dvw - 50px - 2px)', // 3 columns, 2*80px edge spacing, 2*20px gap, 2px border.
+		'(max-width: 1920px) calc(25dvw - 55px - 2px)', // 4 columns, 2*80px edge spacing, 3*20px gap, 2px border.
+		'423px', // Static value due to the max-width on the grid container.
+	];
+
+	if ( $html->next_tag( array( 'tag_name' => 'IMG' ) ) ) {
+		$html->set_attribute( 'sizes', join( ', ', $sizes ) );
+		// Switch out the default src for the medium version.
+		// This is used if srcset is unsupported, though this is very unlikely.
+		$html->set_attribute( 'src', esc_url( get_the_post_thumbnail_url( $post_id, 'medium' ) ) );
+	}
+
+	return (string) $html;
 }
