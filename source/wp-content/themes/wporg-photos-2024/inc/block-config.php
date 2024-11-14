@@ -5,7 +5,7 @@
 
 namespace WordPressdotorg\Theme\Photo_Directory_2024\Block_Config;
 
-use WordPressdotorg\Photo_Directory;
+use WordPressdotorg\Photo_Directory\Favorites;
 use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_query_terms};
 
 // Actions & filters.
@@ -15,6 +15,7 @@ add_filter( 'wporg_query_filter_options_category', __NAMESPACE__ . '\get_categor
 add_filter( 'wporg_query_filter_options_color', __NAMESPACE__ . '\get_color_options' );
 add_filter( 'wporg_query_filter_options_orientation', __NAMESPACE__ . '\get_orientation_options' );
 add_action( 'wporg_query_filter_in_form', __NAMESPACE__ . '\inject_other_filters', 10, 2 );
+add_filter( 'wporg_favorite_button_settings', __NAMESPACE__ . '\get_favorite_settings', 10, 2 );
 add_filter( 'render_block_wporg/link-wrapper', __NAMESPACE__ . '\inject_permalink_link_wrapper' );
 add_filter( 'render_block_core/post-content', __NAMESPACE__ . '\inject_alt_text_label' );
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_alt_text', 10, 3 );
@@ -213,6 +214,26 @@ function inject_other_filters( $key, $block ) {
 	if ( isset( $wp_query->query['s'] ) ) {
 		printf( '<input type="hidden" name="s" value="%s" />', esc_attr( $wp_query->query['s'] ) );
 	}
+}
+
+/**
+ * Configure the favorite button.
+ *
+ * @param array $settings Array of settings for this filter.
+ * @param int   $post_id  The current post ID.
+ *
+ * @return array|bool Settings array or false if not a theme.
+ */
+function get_favorite_settings( $settings, $post_id ) {
+	return array(
+		'is_favorite' => Favorites::is_favorited_photo( $post_id ),
+		'add_callback' => function( $_post_id ) {
+			return Favorites::favorite_photo( $_post_id, get_current_user_id() );
+		},
+		'delete_callback' => function( $_post_id ) {
+			return Favorites::unfavorite_photo( $_post_id, get_current_user_id() );
+		},
+	);
 }
 
 /**
