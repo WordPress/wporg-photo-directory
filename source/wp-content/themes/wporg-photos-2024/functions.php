@@ -70,6 +70,7 @@ function pre_get_posts( $query ) {
 
 	if ( ! $query->is_singular() ) {
 		$query->set( 'post_type', get_photo_post_type() );
+		$query->set( 'posts_per_page', 24 );
 	}
 
 	// Update `photo_color` taxonomy queries to use `AND` operator.
