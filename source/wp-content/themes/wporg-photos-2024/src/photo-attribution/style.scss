@@ -1,0 +1,46 @@
+.wp-block-wporg-photo-attribution:not(.is-loaded) {
+	// Prevent flashing content before the interactivity API loads in.
+	.wporg-photo-attribution__tabpanel:not([data-tab="rtf"]),
+	.wporg-photo-attribution__button-copy {
+		display: none;
+	}
+}
+
+.wporg-photo-attribution__tablist {
+	display: flex;
+	flex-wrap: nowrap;
+	gap: 2px; // Just enough space to prevent cutting off the outline.
+}
+
+.wporg-photo-attribution__tab {
+	padding: var(--wp--preset--spacing--10) var(--wp--preset--spacing--20);
+	background-color: transparent;
+	border: 1px solid transparent;
+
+	&:hover {
+		border-bottom-color: var(--wp--preset--color--light-grey-1);
+		background-color: var(--wp--preset--color--light-grey-2) !important;
+	}
+
+	&[aria-selected="true"] {
+		background-color: var(--wp--preset--color--white);
+		border-color: var(--wp--preset--color--light-grey-1);
+		border-bottom-color: transparent;
+		z-index: 1;
+	}
+}
+
+.wporg-photo-attribution__tabpanel {
+	margin-top: -1px;
+	padding: var(--wp--preset--spacing--20);
+	border-width: 1px 1px 0;
+	border-style: solid;
+	border-color: var(--wp--preset--color--light-grey-1);
+}
+
+.wporg-photo-attribution__button-copy {
+	padding: 0 var(--wp--preset--spacing--20) var(--wp--preset--spacing--20);
+	border-width: 0 1px 1px;
+	border-style: solid;
+	border-color: var(--wp--preset--color--light-grey-1);
+}
