@@ -38,3 +38,49 @@ h1.screen-reader-text + .wp-block-post-template {
 	font-weight: 700;
 	user-select: none;
 }
+
+/* Fix alignment of photo header on small screens. */
+.wp-block-group.is-entry-header {
+	> :where(.is-content-justification-right) {
+		flex-grow: 1;
+	}
+}
+
+/* Style the Download dropdown (navigation menu). */
+.wp-block-navigation.is-download-menu {
+	&,
+	* {
+		border-radius: 2px;
+	}
+
+	.wp-block-navigation-submenu__toggle {
+		// 1px to account for border on favorite button.
+		padding-top: calc(var(--wp--custom--button--small--spacing--padding--top) + 1px);
+		padding-bottom: calc(var(--wp--custom--button--small--spacing--padding--bottom) + 1px);
+		padding-right: 24px;
+		padding-left: var(--wp--custom--button--small--spacing--padding--left);
+
+		+ .wp-block-navigation__submenu-icon {
+			margin-left: -24px;
+			width: 24px;
+			background-color: transparent;
+		}
+	}
+
+	.wp-block-navigation-item__content:focus {
+		box-shadow: inset 0 0 0 3px var(--wp--preset--color--white);
+		outline: 1.5px solid var(--wp--preset--color--blueberry-1);
+		outline-offset: -1.5px;
+	}
+
+	.wp-block-navigation__submenu-container {
+		margin-top: var(--wp--preset--spacing--10);
+		border: 1px solid var(--wp--preset--color--light-grey-1);
+		width: 14rem !important;
+	}
+
+	.is-download-filesize {
+		display: block;
+		color: var(--wp--preset--color--charcoal-4);
+	}
+}

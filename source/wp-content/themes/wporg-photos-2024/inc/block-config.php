@@ -20,6 +20,7 @@ add_filter( 'render_block_wporg/link-wrapper', __NAMESPACE__ . '\inject_permalin
 add_filter( 'render_block_core/post-content', __NAMESPACE__ . '\inject_alt_text_label' );
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_alt_text', 10, 3 );
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_sizes', 10, 3 );
+add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\inject_nav_download_attribute', 10, 2 );
 
 /**
  * Update the query total label to reflect "photos" found.
@@ -68,8 +69,62 @@ function add_site_navigation_menus( $menus ) {
 		);
 	}
 
+	$download = array();
+
+	if ( is_singular( get_photo_post_type() ) ) {
+		$photo_sizes = [
+			'medium_large' => [
+				// translators: %s is the image size.
+				'label' => __( 'Small %s', 'wporg-photos' ),
+				'className' => 'is-download-link',
+			],
+			'1536x1536' => [
+				// translators: %s is the image size.
+				'label' => __( 'Medium %s', 'wporg-photos' ),
+				'className' => 'is-download-link',
+			],
+			'2048x2048' => [
+				// translators: %s is the image size.
+				'label' => __( 'Large %s', 'wporg-photos' ),
+				'className' => 'is-download-link',
+			],
+			'full' => [
+				// translators: %s is the image size.
+				'label' => __( 'Original Size %s', 'wporg-photos' ),
+				'className' => 'is-download-link',
+			],
+		];
+
+		$photo_id = get_post_thumbnail_id();
+		$photo_meta = wp_get_attachment_metadata( $photo_id );
+		foreach ( array_keys( $photo_sizes ) as $size ) {
+			$src = wp_get_attachment_image_src( $photo_id, $size );
+			if ( 'full' === $size ) {
+				$filesize = $photo_meta['filesize'] ?? '';
+			} else {
+				$filesize = $photo_meta['sizes'][ $size ]['filesize'] ?? '';
+			}
+			$photo_sizes[ $size ]['url'] = $src[0];
+			$photo_sizes[ $size ]['label'] = sprintf(
+				$photo_sizes[ $size ]['label'],
+				sprintf(
+					'<span class=\'is-download-dimensions\'>(%s&times;%s)</span> <span class=\'is-download-filesize\'>%s</span>',
+					$src[1],
+					$src[2],
+					size_format( $filesize )
+				)
+			);
+		}
+
+		$download[] = array(
+			'label' => __( 'Download', 'wporg-photos' ),
+			'submenu' => $photo_sizes,
+		);
+	}
+
 	return array(
 		'main' => $menu,
+		'download' => $download,
 	);
 }
 
@@ -322,4 +377,27 @@ function inject_img_sizes( $block_content, $block, $instance ) {
 	}
 
 	return (string) $html;
+}
+
+/**
+ * Add the download, rel, and target attributes to the navigation link.
+ *
+ * @param string $block_content The block content.
+ * @param array  $block         The full block, including name and attributes.
+ *
+ * @return string The updated block.
+ */
+function inject_nav_download_attribute( $block_content, $block ) {
+	if ( str_contains( $block['attrs']['className'], 'is-download-link' ) ) {
+		$html = \WP_HTML_Processor::create_fragment( $block_content );
+		if ( $html->next_tag( array( 'tag_name' => 'A' ) ) ) {
+			$html->set_attribute( 'download', true );
+			$html->set_attribute( 'rel', 'nofollow' );
+			$html->set_attribute( 'target', '_blank' );
+		}
+
+		return (string) $html;
+	}
+
+	return $block_content;
 }

@@ -11,8 +11,8 @@
 	
 	<!-- wp:post-title {"level":1,"className":"screen-reader-text"} /-->
 
-	<!-- wp:group {"align":"wide","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
-	<div class="wp-block-group alignwide">
+	<!-- wp:group {"align":"wide","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"},"className":"is-entry-header"} -->
+	<div class="wp-block-group alignwide is-entry-header">
 		<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
 		<div class="wp-block-group">
 			<!-- wp:avatar {"size":40,"style":{"border":{"radius":"100%"}}} /-->
@@ -21,15 +21,13 @@
 		</div>
 		<!-- /wp:group -->
 
-		<!-- wp:buttons {"className":"wporg-theme-actions","layout":{"type":"flex","justifyContent":"space-between"}} -->
-		<div class="wp-block-buttons wporg-theme-actions">
+		<!-- wp:group {"layout":{"type":"flex","flexWrap":"nowrap","justifyContent":"right","verticalAlignment":"top"}} -->
+		<div class="wp-block-group">
 			<!-- wp:wporg/favorite-button /-->
 
-			<!-- wp:button {"metadata":{"bindings":{"url":{"source":"wporg-themes/meta","args":{"key":"download-url"}}}}} -->
-			<div class="wp-block-button"><a class="wp-block-button__link wp-element-button">Download</a></div>
-			<!-- /wp:button -->
+			<!-- wp:navigation {"menuSlug":"download","className":"is-download-menu","textColor":"white","backgroundColor":"blueberry-1","openSubmenusOnClick":true,"overlayMenu":"never","icon":"menu","overlayBackgroundColor":"white","overlayTextColor":"charcoal-1","fontSize":"small","layout":{"type":"flex","orientation":"horizontal","flexWrap":"wrap","justifyContent":"right"}} /-->
 		</div>
-		<!-- /wp:buttons -->
+		<!-- /wp:group -->
 	</div>
 	<!-- /wp:group -->
 
