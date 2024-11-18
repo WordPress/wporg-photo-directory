@@ -1,3 +1,13 @@
+/* Prevent extra margin on pagination. */
+.wp-block-query-pagination.wp-block-query-pagination {
+	margin-bottom: 0;
+}
+
+/* Prevent screen-reader-text headings from adding block gap. */
+h1.screen-reader-text + .wp-block-post-template {
+	margin-top: 0;
+}
+
 /* Adjust the photos grid down to 3 and 2 columns at breakpoitns */
 @media (max-width: 1280px) {
 	.wp-block-post-template.is-layout-grid.columns-4 {
