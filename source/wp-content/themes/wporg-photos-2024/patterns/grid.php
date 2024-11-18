@@ -39,7 +39,7 @@
 		<a class="wp-block-wporg-link-wrapper is-style-no-underline" href="">
 			<!-- wp:group {"style":{"spacing":{"blockGap":"0"},"border":{"radius":"2px","style":"solid","width":"1px"}},"borderColor":"black-opacity-15"} -->
 			<div class="wp-block-group has-border-color has-black-opacity-15-border-color" style="border-style:solid;border-width:1px;border-radius:2px">
-				<!-- wp:post-featured-image {"aspectRatio":"4/3"} /-->
+				<!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
 			</div>
 			<!-- /wp:group -->
 		</a>
