@@ -18,6 +18,10 @@ add_filter( 'search_template_hierarchy', __NAMESPACE__ . '\override_template_hie
 add_filter( 'archive_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
 add_action( 'template_redirect', __NAMESPACE__ . '\redirect_term_archives' );
 
+// Adds user's recent submissions above upload form.
+remove_filter( 'wporg_photos_pre_upload_form', [ 'WordPressdotorg\Photo_Directory\Uploads', 'output_user_recent_submissions' ] );
+add_filter( 'wporg_photos_pre_upload_form', __NAMESPACE__ . '\output_user_recent_submissions' );
+
 // Remove filters attached in the plugin.
 // @todo Remove these from the plugin once the new theme is live.
 add_action(
@@ -197,4 +201,58 @@ function redirect_term_archives() {
 		wp_safe_redirect( $url );
 		exit;
 	}
+}
+
+/**
+ * Adds current user's 6 most recent photo submissions above upload form.
+ *
+ * @param string $content Existing content before the upload form.
+ *
+ * @return string
+ */
+function output_user_recent_submissions( $content ) {
+	// Bail if user does not have any published photos.
+	if ( ! Photo_Directory\User::count_published_photos( get_current_user_id() ) ) {
+		return $content;
+	}
+
+	$title = __( 'Your latest published photos', 'wporg-photos' );
+	$author = get_current_user_id();
+	$view_more = sprintf(
+		/* translators: %s: URL to current user's photo archive. */
+		__( 'View <a href="%s">your archive of photos</a> to see everything you&#8217;ve already had published.', 'wporg-photos' ),
+		esc_url( get_author_posts_url( get_current_user_id() ) )
+	);
+
+	$block_markup = <<<HTML
+<!-- wp:group -->
+<div class="wp-block-group">
+	<!-- wp:heading -->
+	<h2 class="wp-block-heading">$title</h2>
+	<!-- /wp:heading -->
+
+	<!-- wp:query {"queryId":0,"query":{"author":"$author","postType":"photo","perPage":"6"},"align":"wide","layout":{"type":"default"}} -->
+	<div class="wp-block-query alignwide">
+		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"grid","columnCount":3}} -->
+			<!-- wp:wporg/link-wrapper {"className":"is-style-no-underline"} -->
+			<a class="wp-block-wporg-link-wrapper is-style-no-underline" href="">
+				<!-- wp:group {"style":{"spacing":{"blockGap":"0"},"border":{"radius":"2px","style":"solid","width":"1px"}},"borderColor":"black-opacity-15"} -->
+				<div class="wp-block-group has-border-color has-black-opacity-15-border-color" style="border-style:solid;border-width:1px;border-radius:2px">
+					<!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
+				</div>
+				<!-- /wp:group -->
+			</a>
+			<!-- /wp:wporg/link-wrapper -->
+		<!-- /wp:post-template -->
+	</div>
+	<!-- /wp:query -->
+
+	<!-- wp:paragraph -->
+	<p>$view_more</p>
+	<!-- /wp:paragraph -->
+</div>
+<!-- /wp:group -->
+HTML;
+
+	return $content . do_blocks( $block_markup );
 }
