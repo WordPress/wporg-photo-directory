@@ -63,6 +63,7 @@ $id_prefix = wp_unique_id( 'attr-' );
 			id="<?php echo esc_attr( $id_prefix . '-tab-rtf' ); ?>"
 			data-wp-bind--tabindex="state.tabIndex"
 			data-wp-on--click="actions.openTab"
+			data-wp-on--keydown="actions.onKeyDown"
 		><?php esc_html_e( 'Rich Text', 'wporg-photos' ); ?></button>
 		<button
 			class="wporg-photo-attribution__tab"
@@ -73,6 +74,7 @@ $id_prefix = wp_unique_id( 'attr-' );
 			id="<?php echo esc_attr( $id_prefix . '-tab-html' ); ?>"
 			data-wp-bind--tabindex="state.tabIndex"
 			data-wp-on--click="actions.openTab"
+			data-wp-on--keydown="actions.onKeyDown"
 		><?php esc_html_e( 'HTML', 'wporg-photos' ); ?></button>
 		<button
 			class="wporg-photo-attribution__tab"
@@ -83,6 +85,7 @@ $id_prefix = wp_unique_id( 'attr-' );
 			id="<?php echo esc_attr( $id_prefix . '-tab-txt' ); ?>"
 			data-wp-bind--tabindex="state.tabIndex"
 			data-wp-on--click="actions.openTab"
+			data-wp-on--keydown="actions.onKeyDown"
 		><?php esc_html_e( 'Plain text', 'wporg-photos' ); ?></button>
 	</div>
 	<div

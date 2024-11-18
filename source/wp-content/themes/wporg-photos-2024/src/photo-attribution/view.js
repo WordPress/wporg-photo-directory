@@ -3,6 +3,9 @@
  */
 import { getContext, getElement, store, withScope } from '@wordpress/interactivity';
 
+// List of tabs in order, used for arrow key navigation.
+const TABLIST = [ 'rtf', 'html', 'txt' ];
+
 const { state } = store( 'wporg/photos/photo-attribution', {
 	state: {
 		get isCurrentTab() {
@@ -28,6 +31,28 @@ const { state } = store( 'wporg/photos/photo-attribution', {
 			const { attributes } = getElement();
 			context.tab = attributes[ 'data-tab' ];
 			state.copied = false;
+		},
+		onKeyDown( event ) {
+			const context = getContext();
+			const { ref } = getElement();
+			// Cycle through the tab list with arrow keys.
+			const current = TABLIST.indexOf( context.tab );
+			const max = TABLIST.length;
+			if ( 'ArrowLeft' === event.code ) {
+				const i = current === 0 ? max - 1 : current - 1;
+				context.tab = TABLIST[ i ];
+			} else if ( 'ArrowRight' === event.code ) {
+				const i = current === max - 1 ? 0 : current + 1;
+				context.tab = TABLIST[ i ];
+			} else {
+				return;
+			}
+			// Move the tab focus to the just-selected button.
+			const container = ref.closest( '.wp-block-wporg-photo-attribution' );
+			const button = container.querySelector( `.wporg-photo-attribution__tab[data-tab="${ context.tab }"]` );
+			if ( button ) {
+				button.focus();
+			}
 		},
 		copyText: () => {
 			document.execCommand( 'copy' );
