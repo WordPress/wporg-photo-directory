@@ -19,8 +19,10 @@ add_filter( 'archive_template_hierarchy', __NAMESPACE__ . '\override_template_hi
 add_action( 'template_redirect', __NAMESPACE__ . '\redirect_term_archives' );
 
 // Adds user's recent submissions above upload form.
+remove_filter( 'wporg_photos_pre_upload_form', [ 'WordPressdotorg\Photo_Directory\Moderation', 'output_list_of_pending_submissions_for_user' ] );
 remove_filter( 'wporg_photos_pre_upload_form', [ 'WordPressdotorg\Photo_Directory\Uploads', 'output_user_recent_submissions' ] );
-add_filter( 'wporg_photos_pre_upload_form', __NAMESPACE__ . '\output_user_recent_submissions' );
+add_filter( 'wporg_photos_pre_upload_form', __NAMESPACE__ . '\output_list_of_pending_submissions_for_user', 9 );
+add_filter( 'wporg_photos_pre_upload_form', __NAMESPACE__ . '\output_user_recent_submissions', 10 );
 
 // Remove filters attached in the plugin.
 // @todo Remove these from the plugin once the new theme is live.
@@ -255,4 +257,32 @@ function output_user_recent_submissions( $content ) {
 HTML;
 
 	return $content . do_blocks( $block_markup );
+}
+
+/**
+ * Amends content with a list of submissions in the queue for a user.
+ *
+ * @param string $content The content of the page so far.
+ *
+ * @return string
+ */
+function output_list_of_pending_submissions_for_user( $content ) {
+	$user_id = get_current_user_id();
+
+	// Bail if no user.
+	if ( ! $user_id ) {
+		return $content;
+	}
+
+	$pending = Photo_Directory\User::get_pending_photos( $user_id, '' );
+
+	// Bail if user does not have any pending posts.
+	if ( ! $pending ) {
+		return $content;
+	}
+
+	ob_start();
+	require_once __DIR__ . '/view/submissions-pending.php';
+
+	return $content . do_blocks( ob_get_clean() );
 }
