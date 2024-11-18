@@ -1,0 +1,48 @@
+#wporg-photo-upload {
+	--wp--custom--form--border--width: 1px;
+	--wp--custom--form--border--color: var(--wp--preset--color--charcoal-5);
+
+	border: none;
+	padding: unset;
+	text-wrap: var(--wp--custom--body--typography--text-wrap);
+
+	h2 {
+		margin-top: unset;
+	}
+
+	.ugc-inner-wrapper > * {
+		margin: 0;
+	}
+
+	.ugc-inner-wrapper > * + * {
+		margin-top: var(--wp--preset--spacing--20);
+	}
+
+	.error {
+		background-color: var(--wp--preset--color--pomegrade-3);
+		padding: 1px 3px;
+		border-radius: 2px;
+		border: 1px solid var(--wp--preset--color--pomegrade-1);
+	}
+
+	.ugc-help {
+		margin-top: 0;
+	}
+
+	.upload-checkbox-wrapper {
+		line-height: var(--wp--custom--body--short-text--typography--line-height);
+
+		> p {
+			margin: 0 0 calc(var(--wp--preset--spacing--10) / 2);
+		}
+
+		> div {
+			margin-bottom: calc(var(--wp--preset--spacing--10) / 2);
+		}
+
+		input {
+			margin: 0;
+			margin-inline-end: calc(var(--wp--preset--spacing--10) / 2);
+		}
+	}
+}

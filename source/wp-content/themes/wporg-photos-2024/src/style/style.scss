@@ -5,6 +5,7 @@
 
 @import "grid";
 @import "single-photo";
+@import "submission";
 
 /* Add default focus style. */
 :where(main) a:where(:not(.wp-element-button,.wp-block-wporg-link-wrapper)):focus,
