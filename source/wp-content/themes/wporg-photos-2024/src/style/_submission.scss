@@ -19,6 +19,10 @@
 	padding: unset;
 	text-wrap: var(--wp--custom--body--typography--text-wrap);
 
+	&:not(:first-child) {
+		margin-top: var(--wp--preset--spacing--40);
+	}
+
 	h2 {
 		margin-top: unset;
 	}

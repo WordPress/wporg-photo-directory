@@ -227,33 +227,29 @@ function output_user_recent_submissions( $content ) {
 	);
 
 	$block_markup = <<<HTML
-<!-- wp:group -->
-<div class="wp-block-group">
-	<!-- wp:heading -->
-	<h2 class="wp-block-heading">$title</h2>
-	<!-- /wp:heading -->
+<!-- wp:heading -->
+<h2 class="wp-block-heading">$title</h2>
+<!-- /wp:heading -->
 
-	<!-- wp:query {"queryId":0,"query":{"author":"$author","postType":"photo","perPage":"6"},"align":"wide","layout":{"type":"default"}} -->
-	<div class="wp-block-query alignwide">
-		<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"grid","columnCount":3}} -->
-			<!-- wp:wporg/link-wrapper {"className":"is-style-no-underline"} -->
-			<a class="wp-block-wporg-link-wrapper is-style-no-underline" href="">
-				<!-- wp:group {"style":{"spacing":{"blockGap":"0"},"border":{"radius":"2px","style":"solid","width":"1px"}},"borderColor":"black-opacity-15"} -->
-				<div class="wp-block-group has-border-color has-black-opacity-15-border-color" style="border-style:solid;border-width:1px;border-radius:2px">
-					<!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
-				</div>
-				<!-- /wp:group -->
-			</a>
-			<!-- /wp:wporg/link-wrapper -->
-		<!-- /wp:post-template -->
-	</div>
-	<!-- /wp:query -->
-
-	<!-- wp:paragraph -->
-	<p>$view_more</p>
-	<!-- /wp:paragraph -->
+<!-- wp:query {"queryId":0,"query":{"author":"$author","postType":"photo","perPage":"6"},"align":"wide","layout":{"type":"default"}} -->
+<div class="wp-block-query alignwide">
+	<!-- wp:post-template {"style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"grid","columnCount":3}} -->
+		<!-- wp:wporg/link-wrapper {"className":"is-style-no-underline"} -->
+		<a class="wp-block-wporg-link-wrapper is-style-no-underline" href="">
+			<!-- wp:group {"style":{"spacing":{"blockGap":"0"},"border":{"radius":"2px","style":"solid","width":"1px"}},"borderColor":"black-opacity-15"} -->
+			<div class="wp-block-group has-border-color has-black-opacity-15-border-color" style="border-style:solid;border-width:1px;border-radius:2px">
+				<!-- wp:post-featured-image {"aspectRatio":"16/9"} /-->
+			</div>
+			<!-- /wp:group -->
+		</a>
+		<!-- /wp:wporg/link-wrapper -->
+	<!-- /wp:post-template -->
 </div>
-<!-- /wp:group -->
+<!-- /wp:query -->
+
+<!-- wp:paragraph -->
+<p>$view_more</p>
+<!-- /wp:paragraph -->
 HTML;
 
 	return $content . do_blocks( $block_markup );
