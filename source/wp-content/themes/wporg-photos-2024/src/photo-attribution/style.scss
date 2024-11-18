@@ -36,6 +36,10 @@
 	border-width: 1px 1px 0;
 	border-style: solid;
 	border-color: var(--wp--preset--color--light-grey-1);
+
+	&[data-tab="html"] {
+		font-family: var(--wp--preset--font-family--monospace);
+	}
 }
 
 .wporg-photo-attribution__button-copy {
