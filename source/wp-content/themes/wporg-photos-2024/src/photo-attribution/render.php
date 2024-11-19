@@ -38,7 +38,7 @@ $txt_content = sprintf(
 $init_state = [
 	'i18n' => [
 		'copySuccess' => __( 'Copied!', 'wporg-photos' ),
-		'copyDefault' => __( 'Copy to clipboard', 'wporg-photos' ),
+		'copyDefault' => __( 'Copy', 'wporg-photos' ),
 	],
 	'tab' => 'rtf',
 ];
@@ -126,6 +126,6 @@ $id_prefix = wp_unique_id( 'attr-' );
 			class="wp-block-button__link wp-element-button"
 			data-wp-on--click="actions.copyText"
 			data-wp-text="state.buttonLabel"
-		><?php esc_html_e( 'Copy to clipboard', 'wporg-photos' ); ?></button>
+		><?php esc_html_e( 'Copy', 'wporg-photos' ); ?></button>
 	</div>
 </div>
