@@ -82,9 +82,7 @@
 		<p>Photo attribution is not necessary, but appreciated. If you'd like to give credit to the photographer, feel free to use this text:</p>
 		<!-- /wp:paragraph -->
 
-		<!-- wp:paragraph -->
-		<p>[block]</p>
-		<!-- /wp:paragraph -->
+		<!-- wp:wporg/photo-attribution /-->
 	</div>
 	<!-- /wp:group -->
 

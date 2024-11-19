@@ -8,6 +8,7 @@ require_once( __DIR__ . '/inc/block-config.php' );
 
 // Block files
 require_once( __DIR__ . '/src/meta-list/index.php' );
+require_once( __DIR__ . '/src/photo-attribution/index.php' );
 
 // Actions & filters.
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_assets' );
