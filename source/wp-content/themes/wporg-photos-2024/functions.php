@@ -4,6 +4,7 @@ namespace WordPressdotorg\Theme\Photo_Directory_2024;
 
 use WordPressdotorg\Photo_Directory;
 
+require_once( __DIR__ . '/inc/helpers.php' );
 require_once( __DIR__ . '/inc/block-config.php' );
 
 // Block files
@@ -33,15 +34,6 @@ add_action(
 		remove_filter( 'the_posts', [ 'WordPressdotorg\Photo_Directory\Posts', 'fix_front_page_pagination_count' ], 10, 2 );
 	}
 );
-
-/**
- * Returns the photo post type.
- *
- * @return string
- */
-function get_photo_post_type() {
-	return Photo_Directory\Registrations::get_post_type();
-}
 
 /**
  * Enqueue scripts and styles.
@@ -107,27 +99,6 @@ function override_template_hierarchy( $templates ) {
 	}
 
 	return $templates;
-}
-
-/**
- * Get the selected terms from the current query, converting them to an array if necessary.
- *
- * @param string $query_var Parameter name.
- * @param bool   $is_array  Whether the return value should be an array.
- *
- * @return array
- */
-function get_query_terms( $query_var, $is_array = true ) {
-	global $wp_query;
-	if ( $is_array ) {
-		$terms = isset( $wp_query->query[ $query_var ] ) ? $wp_query->query[ $query_var ] : array();
-		if ( is_string( $terms ) ) {
-			$terms = explode( '+', $terms );
-		}
-		return $terms;
-	}
-
-	return isset( $wp_query->query[ $query_var ] ) ? $wp_query->query[ $query_var ] : '';
 }
 
 /**
