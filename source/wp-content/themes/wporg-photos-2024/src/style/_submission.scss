@@ -1,13 +1,15 @@
-.wporg-submissions-pending__list {
-	> div + div {
-		border-top: 0 !important;
-		border-top-right-radius: 0 !important;
-		border-top-left-radius: 0 !important;
+.wp-block-table.wporg-submissions-pending__list {
+	thead {
+		border-bottom: none;
 	}
 
-	> div:not(:last-child) {
-		border-bottom-right-radius: 0 !important;
-		border-bottom-left-radius: 0 !important;
+	th {
+		font-weight: 700;
+	}
+
+	td,
+	th {
+		padding-block: var(--wp--preset--spacing--10);
 	}
 }
 
