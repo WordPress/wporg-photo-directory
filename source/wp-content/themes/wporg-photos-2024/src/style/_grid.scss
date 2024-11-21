@@ -4,7 +4,8 @@
 }
 
 /* Prevent screen-reader-text headings from adding block gap. */
-h1.screen-reader-text + .wp-block-post-template {
+h1.screen-reader-text + .wp-block-post-template,
+.wp-block-spacer + .wp-block-post-template {
 	margin-top: 0;
 }
 

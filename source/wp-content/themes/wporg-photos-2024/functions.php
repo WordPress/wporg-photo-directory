@@ -5,6 +5,7 @@ namespace WordPressdotorg\Theme\Photo_Directory_2024;
 use WordPressdotorg\Photo_Directory;
 
 require_once( __DIR__ . '/inc/helpers.php' );
+require_once( __DIR__ . '/inc/block-bindings.php' );
 require_once( __DIR__ . '/inc/block-config.php' );
 
 // Block files
@@ -25,13 +26,18 @@ remove_filter( 'wporg_photos_pre_upload_form', [ 'WordPressdotorg\Photo_Director
 add_filter( 'wporg_photos_pre_upload_form', __NAMESPACE__ . '\output_list_of_pending_submissions_for_user', 9 );
 add_filter( 'wporg_photos_pre_upload_form', __NAMESPACE__ . '\output_user_recent_submissions', 10 );
 
-// Remove filters attached in the plugin.
-// @todo Remove these from the plugin once the new theme is live.
 add_action(
 	'init',
 	function() {
+		// Remove filters attached in the plugin.
 		remove_action( 'pre_get_posts', [ 'WordPressdotorg\Photo_Directory\Posts', 'offset_front_page_paginations' ], 11 );
 		remove_filter( 'the_posts', [ 'WordPressdotorg\Photo_Directory\Posts', 'fix_front_page_pagination_count' ], 10, 2 );
+
+		// Don't swap author link with w.org profile link.
+		remove_all_filters( 'author_link' );
+
+		// Remove the "By…" from the author name block.
+		remove_filter( 'render_block_core/post-author-name', 'WordPressdotorg\Theme\Parent_2021\Gutenberg_Tweaks\render_author_prefix', 10, 2 );
 	}
 );
 

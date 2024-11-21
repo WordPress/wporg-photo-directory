@@ -36,3 +36,19 @@ function get_query_terms( $query_var, $is_array = true ) {
 
 	return isset( $wp_query->query[ $query_var ] ) ? $wp_query->query[ $query_var ] : '';
 }
+
+/**
+ * Return the user object for the user whose favorites are being viewed.
+ *
+ * @return \WP_User|false User object if favorites & found, false otherwise.
+ */
+function get_favorites_user() {
+	$favorite_user = get_query_var( Photo_Directory\Favorites::QUERY_VAR_USER_FAVORITES );
+	if ( $favorite_user ) {
+		$user = get_user_by( 'slug', $favorite_user );
+		if ( is_a( $user, 'WP_User' ) ) {
+			return $user;
+		}
+	}
+	return false;
+}

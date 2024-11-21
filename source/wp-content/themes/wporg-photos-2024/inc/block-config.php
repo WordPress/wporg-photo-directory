@@ -6,7 +6,7 @@
 namespace WordPressdotorg\Theme\Photo_Directory_2024\Block_Config;
 
 use WordPressdotorg\Photo_Directory\Favorites;
-use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_query_terms};
+use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_query_terms, get_favorites_user};
 
 // Actions & filters.
 add_filter( 'wporg_query_total_label', __NAMESPACE__ . '\update_query_total_label', 10, 2 );
@@ -21,6 +21,7 @@ add_filter( 'render_block_core/post-content', __NAMESPACE__ . '\inject_alt_text_
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_alt_text', 10, 3 );
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_sizes', 10, 3 );
 add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\inject_nav_download_attribute', 10, 2 );
+add_filter( 'render_block_data', __NAMESPACE__ . '\avatar_set_favorites_user_id', 10, 2 );
 
 /**
  * Update the query total label to reflect "photos" found.
@@ -39,6 +40,7 @@ function update_query_total_label( $label, $found_posts ) {
  * Provide a list of local navigation menus.
  */
 function add_site_navigation_menus( $menus ) {
+	$favorite_user = get_query_var( Favorites::QUERY_VAR_USER_FAVORITES );
 	$menu = array();
 	$menu[] = array(
 		'label' => __( 'Submit a photo', 'wporg-photos' ),
@@ -56,16 +58,18 @@ function add_site_navigation_menus( $menus ) {
 		'label' => __( 'FAQ', 'wporg-photos' ),
 		'url' => '/faq/',
 	);
-	$menu[] = array(
-		'label' => __( 'My favorites', 'wporg-photos' ),
-		'url' => '/favorites/',
-	);
 	if ( ! is_user_logged_in() ) {
 		global $wp;
 		$redirect_url = home_url( $wp->request );
 		$menu[] = array(
 			'label' => __( 'Log in', 'wporg-photos' ),
 			'url' => wp_login_url( $redirect_url ),
+		);
+	} else {
+		$menu[] = array(
+			'label' => __( 'My favorites', 'wporg-photos' ),
+			'url' => '/favorites/',
+			'className' => $favorite_user ? 'current-menu-item' : '',
 		);
 	}
 
@@ -122,9 +126,32 @@ function add_site_navigation_menus( $menus ) {
 		);
 	}
 
+	$user = '';
+	if ( is_author() ) {
+		$user_obj = get_queried_object();
+		if ( is_a( $user_obj, 'WP_User' ) ) {
+			$user = $user_obj->user_nicename;
+		}
+	} else {
+		$user = $favorite_user;
+	}
+	$user = array(
+		array(
+			'label' => __( 'Favorites', 'wporg-photos' ),
+			'url' => "/favorites/$user/",
+			'className' => $favorite_user ? 'current-menu-item' : '',
+		),
+		array(
+			'label' => __( 'Contributed', 'wporg-photos' ),
+			'url' => "/author/$user/",
+			'className' => is_author() ? 'current-menu-item' : '',
+		),
+	);
+
 	return array(
 		'main' => $menu,
 		'download' => $download,
+		'user' => $user,
 	);
 }
 
@@ -400,4 +427,24 @@ function inject_nav_download_attribute( $block_content, $block ) {
 	}
 
 	return $block_content;
+}
+
+/**
+ * Set the user ID for the avatar block on "favorites" page.
+ *
+ * @param array $parsed_block An associative array of the block being rendered.
+ *
+ * @return array The updated block.
+ */
+function avatar_set_favorites_user_id( $parsed_block ) {
+	if ( 'core/avatar' !== $parsed_block['blockName'] ) {
+		return $parsed_block;
+	}
+
+	$favorite_user = get_favorites_user();
+	if ( $favorite_user ) {
+		$parsed_block['attrs']['userId'] = $favorite_user->ID;
+	}
+
+	return $parsed_block;
 }
