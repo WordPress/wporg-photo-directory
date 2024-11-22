@@ -22,6 +22,7 @@ add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_im
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_sizes', 10, 3 );
 add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\inject_nav_download_attribute', 10, 2 );
 add_filter( 'render_block_data', __NAMESPACE__ . '\avatar_set_favorites_user_id', 10, 2 );
+add_filter( 'render_block_data', __NAMESPACE__ . '\pattern_update_no_results', 10, 2 );
 
 /**
  * Update the query total label to reflect "photos" found.
@@ -444,6 +445,39 @@ function avatar_set_favorites_user_id( $parsed_block ) {
 	$favorite_user = get_favorites_user();
 	if ( $favorite_user ) {
 		$parsed_block['attrs']['userId'] = $favorite_user->ID;
+	}
+
+	return $parsed_block;
+}
+
+/**
+ * Switch out the "no results" pattern depending on user & page.
+ *
+ * @param array $parsed_block An associative array of the block being rendered.
+ *
+ * @return array The updated block.
+ */
+function pattern_update_no_results( $parsed_block ) {
+	if (
+		'core/pattern' !== $parsed_block['blockName'] ||
+		'wporg-photos-2024/no-results' !== $parsed_block['attrs']['slug']
+	) {
+		return $parsed_block;
+	}
+
+	$favorite_user = get_favorites_user();
+	if ( $favorite_user ) {
+		if ( get_current_user_id() === $favorite_user->ID ) {
+			$parsed_block['attrs']['slug'] = 'wporg-photos-2024/no-results-fav-mine';
+		} else {
+			$parsed_block['attrs']['slug'] = 'wporg-photos-2024/no-results-fav';
+		}
+	} else if ( is_author() ) {
+		if ( is_author( get_current_user_id() ) ) {
+			$parsed_block['attrs']['slug'] = 'wporg-photos-2024/no-results-author-mine';
+		} else {
+			$parsed_block['attrs']['slug'] = 'wporg-photos-2024/no-results-author';
+		}
 	}
 
 	return $parsed_block;

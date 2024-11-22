@@ -55,19 +55,7 @@
 	<!-- /wp:query-pagination -->
 
 	<!-- wp:query-no-results -->
-		<!-- wp:heading {"textAlign":"center","level":1,"fontSize":"heading-2"} -->
-		<h1 class="wp-block-heading has-text-align-center has-heading-2-font-size"><?php esc_attr_e( 'No results found', 'wporg-photos' ); ?></h1>
-		<!-- /wp:heading -->
-
-		<!-- wp:paragraph {"align":"center"} -->
-		<p class="has-text-align-center">
-			<?php printf(
-				/* translators: %s is the homepage url. */
-				wp_kses_post( __( 'View <a href="%s">all photos</a> or try a different search. ', 'wporg-photos' ) ),
-				esc_url( home_url( '/' ) )
-			); ?>
-		</p>
-		<!-- /wp:paragraph -->
+		<!-- wp:pattern {"slug":"wporg-photos-2024/no-results"} /-->
 	<!-- /wp:query-no-results -->
 </div>
 <!-- /wp:query -->
