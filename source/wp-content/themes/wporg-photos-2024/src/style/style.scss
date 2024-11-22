@@ -46,3 +46,31 @@
 		margin-top: var(--wp--preset--spacing--20);
 	}
 }
+
+/* Style the page footer columns. */
+.is-page-footer {
+
+	@media (max-width: 1080px) {
+		.wp-block-columns {
+			--wp--preset--spacing--edge-space: 20px;
+		}
+	}
+
+	@media (max-width: 782px) {
+		padding-inline: 0 !important;
+
+		.wp-block-columns {
+			display: block;
+
+			> * {
+				padding-inline: var(--wp--preset--spacing--edge-space) !important;
+				border-left: none !important;
+				border-right: none !important;
+
+				&:not(:last-child) {
+					border-bottom: 1px solid var(--wp--preset--color--white-opacity-15);
+				}
+			}
+		}
+	}
+}
