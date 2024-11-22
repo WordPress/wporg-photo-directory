@@ -50,7 +50,6 @@ $id_prefix = wp_unique_id( 'attr-' );
 	<?php echo get_block_wrapper_attributes();  // phpcs:ignore ?>
 	data-wp-interactive="wporg/photos/photo-attribution"
 	<?php echo wp_interactivity_data_wp_context( $init_state );  // phpcs:ignore ?>
-	data-wp-on-document--copy="callbacks.copyListener"
 	data-wp-class--is-loaded="state.isLoaded"
 >
 	<div class="wporg-photo-attribution__tablist" role="tablist" aria-label="<?php esc_attr_e( 'Attribution options', 'wporg-photos' ); ?>">
