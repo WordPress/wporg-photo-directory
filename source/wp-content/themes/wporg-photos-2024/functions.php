@@ -19,6 +19,7 @@ add_filter( 'frontpage_template_hierarchy', __NAMESPACE__ . '\override_template_
 add_filter( 'search_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
 add_filter( 'archive_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
 add_action( 'template_redirect', __NAMESPACE__ . '\redirect_term_archives' );
+add_action( 'template_redirect', __NAMESPACE__ . '\redirect_filters_page' );
 
 // Adds user's recent submissions above upload form.
 remove_filter( 'wporg_photos_pre_upload_form', [ 'WordPressdotorg\Photo_Directory\Moderation', 'output_list_of_pending_submissions_for_user' ] );
@@ -173,6 +174,23 @@ function redirect_term_archives() {
 			$value = 'photo_color' === $qv ? get_query_terms( $qv ) : $wp_query->query[ $qv ];
 			$url = add_query_arg( $qv, $value, $url );
 		}
+	}
+
+	if ( $url ) {
+		// Redirect to the new permalink-style URL.
+		wp_safe_redirect( $url );
+		exit;
+	}
+}
+
+/**
+ * Redirects the old individual taxonomy list pages to the new filters page.
+ */
+function redirect_filters_page() {
+	$url = false;
+
+	if ( is_page( [ 'c', 'color', 'orientation' ] ) ) {
+		$url = home_url( '/filters/' );
 	}
 
 	if ( $url ) {
