@@ -1,0 +1,75 @@
+/* Add the color chips before the color term links. */
+.wp-block-categories-list.is-tax-photo_color {
+	li {
+		display: flex;
+		gap: calc(var(--wp--preset--spacing--10) / 2);
+		align-items: center;
+	}
+
+	a {
+		display: inline-flex;
+		gap: var(--wp--preset--spacing--10);
+		align-items: center;
+	}
+
+	a::before {
+		content: "";
+		display: inline-block;
+		height: 23px;
+		width: 23px;
+		border-radius: 2px;
+		border: 1px solid rgba(0 0 0 / 0.1);
+	}
+
+	a[href*="/color/black"]::before {
+		background-color: #000;
+	}
+
+	a[href*="/color/blue"]::before {
+		background-color: #3078eb;
+	}
+
+	a[href*="/color/brown"]::before {
+		background-color: #a97419;
+	}
+
+	a[href*="/color/gray"]::before {
+		background-color: #8b8b8b;
+	}
+
+	a[href*="/color/green"]::before {
+		background-color: #4ab61b;
+	}
+
+	a[href*="/color/orange"]::before {
+		background-color: #ffa114;
+	}
+
+	a[href*="/color/pink"]::before {
+		background-color: #ffc9ca;
+	}
+
+	a[href*="/color/purple"]::before {
+		background-color: #9c2df0;
+	}
+
+	a[href*="/color/red"]::before {
+		background-color: #ff3838;
+	}
+
+	a[href*="/color/silver"]::before {
+		background-color: #d6d7db;
+	}
+
+	a[href*="/color/violet"]::before {
+		background-color: #ff8ef7;
+	}
+
+	a[href*="/color/white"]::before {
+		background-color: #fff;
+	}
+
+	a[href*="/color/yellow"]::before {
+		background-color: #ffe814;
+	}
+}
