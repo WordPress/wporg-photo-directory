@@ -10,7 +10,9 @@ use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, ge
 
 // Actions & filters.
 add_filter( 'wporg_query_total_label', __NAMESPACE__ . '\update_query_total_label', 10, 2 );
-add_filter( 'wporg_block_navigation_menus', __NAMESPACE__ . '\add_site_navigation_menus' );
+add_filter( 'wporg_block_navigation_menus', __NAMESPACE__ . '\add_navigation_menu_main' );
+add_filter( 'wporg_block_navigation_menus', __NAMESPACE__ . '\add_navigation_menu_download' );
+add_filter( 'wporg_block_navigation_menus', __NAMESPACE__ . '\add_navigation_menu_user' );
 add_filter( 'wporg_query_filter_options_category', __NAMESPACE__ . '\get_category_options' );
 add_filter( 'wporg_query_filter_options_color', __NAMESPACE__ . '\get_color_options' );
 add_filter( 'wporg_query_filter_options_orientation', __NAMESPACE__ . '\get_orientation_options' );
@@ -38,10 +40,9 @@ function update_query_total_label( $label, $found_posts ) {
 }
 
 /**
- * Provide a list of local navigation menus.
+ * Set up the main navigation menu, used in the local navigation bar.
  */
-function add_site_navigation_menus( $menus ) {
-	$favorite_user = get_query_var( Favorites::QUERY_VAR_USER_FAVORITES );
+function add_navigation_menu_main( $menus ) {
 	$menu = array();
 	$menu[] = array(
 		'label' => __( 'Submit a photo', 'wporg-photos' ),
@@ -67,14 +68,24 @@ function add_site_navigation_menus( $menus ) {
 			'url' => wp_login_url( $redirect_url ),
 		);
 	} else {
+		$favorite_user = get_favorites_user();
+		$is_user_favorites = $favorite_user && get_current_user_id() === $favorite_user->ID;
 		$menu[] = array(
 			'label' => __( 'My favorites', 'wporg-photos' ),
 			'url' => '/favorites/',
-			'className' => $favorite_user ? 'current-menu-item' : '',
+			'className' => $is_user_favorites ? 'current-menu-item' : '',
 		);
 	}
 
-	$download = array();
+	$menus['main'] = $menu;
+	return $menus;
+}
+
+/**
+ * Set up the download menu, used on single photos for the download dropdown.
+ */
+function add_navigation_menu_download( $menus ) {
+	$menu = array();
 
 	if ( is_singular( get_photo_post_type() ) ) {
 		$photo_sizes = [
@@ -121,39 +132,50 @@ function add_site_navigation_menus( $menus ) {
 			);
 		}
 
-		$download[] = array(
+		$menu[] = array(
 			'label' => __( 'Download', 'wporg-photos' ),
 			'submenu' => $photo_sizes,
 		);
 	}
 
-	$user = '';
+	$menus['download'] = $menu;
+	return $menus;
+}
+
+/**
+ * Set up the user menu, used on author archives & favorites pages.
+ */
+function add_navigation_menu_user( $menus ) {
+	$tab = '';
 	if ( is_author() ) {
 		$user_obj = get_queried_object();
-		if ( is_a( $user_obj, 'WP_User' ) ) {
-			$user = $user_obj->user_nicename;
-		}
+		$tab = 'author';
 	} else {
-		$user = $favorite_user;
+		$user_obj = get_favorites_user();
+		$tab = 'favorites';
 	}
-	$user = array(
+
+	if ( ! is_a( $user_obj, 'WP_User' ) ) {
+		return $menus;
+	}
+
+	$user = $user_obj->user_nicename;
+
+	$menu = array(
 		array(
 			'label' => __( 'Favorites', 'wporg-photos' ),
 			'url' => "/favorites/$user/",
-			'className' => $favorite_user ? 'current-menu-item' : '',
+			'className' => 'favorites' === $tab ? 'current-menu-item' : '',
 		),
 		array(
 			'label' => __( 'Contributed', 'wporg-photos' ),
 			'url' => "/author/$user/",
-			'className' => is_author() ? 'current-menu-item' : '',
+			'className' => 'author' === $tab ? 'current-menu-item' : '',
 		),
 	);
 
-	return array(
-		'main' => $menu,
-		'download' => $download,
-		'user' => $user,
-	);
+	$menus['user'] = $menu;
+	return $menus;
 }
 
 /**
