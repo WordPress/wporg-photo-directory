@@ -48,9 +48,18 @@ $details = array(
 			$image_caption = get_the_content( null, false, $photo_post ) ?: __( '(none provided)', 'wporg-photos' );
 			?>
 			<tr>
-				<td><?php echo esc_html( $image_title ); ?></td>
-				<td><?php echo esc_html( $image_date ); ?></td>
-				<td><?php echo esc_html( $image_caption ); ?></td>
+				<td>
+					<span class="is-inline-label"><?php esc_html_e( 'File:', 'wporg-photos' ); ?></span>
+					<?php echo esc_html( $image_title ); ?>
+				</td>
+				<td>
+					<span class="is-inline-label"><?php esc_html_e( 'Submission date:', 'wporg-photos' ); ?></span>
+					<?php echo esc_html( $image_date ); ?>
+				</td>
+				<td>
+					<span class="is-inline-label"><?php esc_html_e( 'Caption:', 'wporg-photos' ); ?></span>
+					<?php echo esc_html( $image_caption ); ?>
+				</td>
 			</tr>
 		<?php endforeach; ?>
 		</tbody>
