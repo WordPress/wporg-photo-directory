@@ -19,6 +19,7 @@ jobs:
             - name: Setup
               uses: WordPress/wporg-repo-tools/.github/actions/setup@trunk
               with:
+                packageManager: "npm"
                 token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Remove build artifacts
