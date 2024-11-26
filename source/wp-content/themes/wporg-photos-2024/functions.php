@@ -20,6 +20,7 @@ add_filter( 'search_template_hierarchy', __NAMESPACE__ . '\override_template_hie
 add_filter( 'archive_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
 add_action( 'template_redirect', __NAMESPACE__ . '\redirect_term_archives' );
 add_action( 'template_redirect', __NAMESPACE__ . '\redirect_filters_page' );
+add_filter( 'the_title', __NAMESPACE__ . '\filter_photo_title', 10, 2 );
 
 // Adds user's recent submissions above upload form.
 remove_filter( 'wporg_photos_pre_upload_form', [ 'WordPressdotorg\Photo_Directory\Moderation', 'output_list_of_pending_submissions_for_user' ] );
@@ -198,6 +199,21 @@ function redirect_filters_page() {
 		wp_safe_redirect( $url );
 		exit;
 	}
+}
+
+/**
+ * Swap the photo title (a generated ID) for a more human-friendly title.
+ *
+ * @param string $post_title The post title.
+ * @param int    $post_id    The post ID.
+ *
+ * @return string Updated post title.
+ */
+function filter_photo_title( $post_title, $post_id ) {
+	if ( ! is_admin() && get_photo_post_type() === get_post_type( $post_id ) ) {
+		return __( 'Photo detail', 'wporg-photos' );
+	}
+	return $post_title;
 }
 
 /**
