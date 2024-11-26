@@ -7,6 +7,7 @@ use WordPressdotorg\Photo_Directory;
 require_once( __DIR__ . '/inc/helpers.php' );
 require_once( __DIR__ . '/inc/block-bindings.php' );
 require_once( __DIR__ . '/inc/block-config.php' );
+require_once( __DIR__ . '/inc/seo-social-meta.php' );
 
 // Block files
 require_once( __DIR__ . '/src/meta-list/index.php' );
