@@ -6,38 +6,7 @@ import { getContext, getElement, store, withScope } from '@wordpress/interactivi
 // List of tabs in order, used for arrow key navigation.
 const TABLIST = [ 'rtf', 'html', 'txt' ];
 
-/**
- * Handle the copy event, copying the content of the active tab to the clipboard.
- *
- * Note: This needs to be separate from the store to remove it from the event listener.
- *
- * @param {*} event 
- */
-function copyListener( event ) {
-	console.log( 'copyListener' );
-	event.preventDefault();
-	const { tab } = getContext();
-	const { ref } = getElement();
-	const container = ref.closest( '.wp-block-wporg-photo-attribution' );
-
-	// Get the active tab.
-	const attribution = container.querySelector( '.wporg-photo-attribution__tabpanel:not([hidden])' );
-	let content = attribution.innerHTML.trim();
-	if ( 'html' === tab ) {
-		// Decode HTML entities.
-		const textarea = document.createElement( 'textarea' );
-		textarea.innerHTML = content;
-		content = textarea.value;
-	}
-
-	if ( 'rtf' === tab ) {
-		event.clipboardData.setData( 'text/html', content );
-	}
-
-	event.clipboardData.setData( 'text/plain', content );
-}
-
-const { callbacks, state } = store( 'wporg/photos/photo-attribution', {
+const { state } = store( 'wporg/photos/photo-attribution', {
 	state: {
 		get isCurrentTab() {
 			const { tab } = getContext();
@@ -85,10 +54,28 @@ const { callbacks, state } = store( 'wporg/photos/photo-attribution', {
 				button.focus();
 			}
 		},
-		copyText: () => {
-			document.addEventListener( 'copy', copyListener );
-			document.execCommand( 'copy' );
-			document.removeEventListener( 'copy', copyListener );
+		copyText: async () => {
+			const { tab } = getContext();
+			const { ref } = getElement();
+			const container = ref.closest( '.wp-block-wporg-photo-attribution' );
+
+			// Get the active tab.
+			const attribution = container.querySelector( '.wporg-photo-attribution__tabpanel:not([hidden])' );
+			let content = attribution.innerHTML.trim();
+			if ( 'html' === tab ) {
+				// Decode HTML entities.
+				const textarea = document.createElement( 'textarea' );
+				textarea.innerHTML = content;
+				content = textarea.value;
+			}
+
+			const data = {};
+			data[ 'text/plain' ] = new Blob( [ content ], { type: 'text/plain' } );
+			if ( 'rtf' === tab ) {
+				data[ 'text/html' ] = new Blob( [ content ], { type: 'text/html' } );
+			}
+
+			await navigator.clipboard.write( [ new ClipboardItem( data ) ] );
 
 			state.copied = true;
 			setTimeout(
