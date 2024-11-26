@@ -30,39 +30,39 @@ $details = array(
 <p><?php echo wp_kses_post( implode( ' ', $details ) ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:group {"className":"wporg-submissions-pending__list","style":{"spacing":{"blockGap":"0"}},"layout":{"type":"constrained"}} -->
-<div class="wp-block-group wporg-submissions-pending__list">
-	<?php
-	foreach ( $pending as $photo_post ) :
-		$image_id = get_post_thumbnail_id( $photo_post );
-		$image_url = get_the_post_thumbnail_url( $photo_post->ID, 'medium_large' );
-		$image_title = get_post_meta( $photo_post->ID, Registrations::get_meta_key( 'original_filename' ), true ) ?: __( '(unknown)', 'wporg-photos' );
-		$image_date = get_the_date( 'Y-m-d', $photo_post );
-		$image_caption = get_the_content( null, false, $photo_post ) ?: __( '(none provided)', 'wporg-photos' );
-		?>
-		<!-- wp:group {"style":{"spacing":{"padding":{"top":"var:preset|spacing|20","bottom":"var:preset|spacing|20","left":"var:preset|spacing|20","right":"var:preset|spacing|20"},"blockGap":"var:preset|spacing|30"},"border":{"style":"solid","width":"1px","color":"#d9d9d9","radius":"2px"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
-		<div class="wp-block-group has-border-color" style="border-color:#d9d9d9;border-style:solid;border-width:1px;border-radius:2px;padding-top:var(--wp--preset--spacing--20);padding-right:var(--wp--preset--spacing--20);padding-bottom:var(--wp--preset--spacing--20);padding-left:var(--wp--preset--spacing--20)">
-			<!-- wp:image {"id":<?php echo intval( $image_id ); ?>,"width":"180px","aspectRatio":"16/9","scale":"cover","sizeSlug":"medium","linkDestination":"none"} -->
-			<figure class="wp-block-image size-medium is-resized"><img src="<?php echo esc_url( $image_url ); ?>" alt="<?php esc_attr_e( 'View the photo.', 'wporg-photos' ); ?>" class="wp-image-<?php echo intval( $image_id ); ?>" style="aspect-ratio:16/9;object-fit:cover;width:180px"/></figure>
-			<!-- /wp:image -->
-
-			<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","orientation":"vertical"}} -->
-			<div class="wp-block-group">
-				<!-- wp:paragraph {"className":"is-style-short-text"} -->
-				<p class="is-style-short-text"><strong><?php esc_html_e( 'File:', 'wporg-photos' ); ?></strong> <?php echo esc_html( $image_title ); ?></p>
-				<!-- /wp:paragraph -->
-
-				<!-- wp:paragraph {"className":"is-style-short-text"} -->
-				<p class="is-style-short-text"><strong><?php esc_html_e( 'Submission date:', 'wporg-photos' ); ?></strong> <?php echo esc_html( $image_date ); ?></p>
-				<!-- /wp:paragraph -->
-
-				<!-- wp:paragraph {"className":"is-style-short-text"} -->
-				<p class="is-style-short-text"><strong><?php esc_html_e( 'Caption:', 'wporg-photos' ); ?></strong> <?php echo esc_html( $image_caption ); ?></p>
-				<!-- /wp:paragraph -->
-			</div>
-			<!-- /wp:group -->
-		</div>
-		<!-- /wp:group -->
-	<?php endforeach; ?>
-</div>
-<!-- /wp:group -->
+<!-- wp:table {"hasFixedLayout":alse,"className":"wporg-submissions-pending__list","fontSize":"small"} -->
+<figure class="wp-block-table has-small-font-size wporg-submissions-pending__list">
+	<table>
+		<thead><tr>
+			<th><?php esc_html_e( 'File', 'wporg-photos' ); ?></th>
+			<th><?php esc_html_e( 'Submission date', 'wporg-photos' ); ?></th>
+			<th><?php esc_html_e( 'Caption', 'wporg-photos' ); ?></th>
+		</tr></thead>
+		<tbody>
+		<?php
+		foreach ( $pending as $photo_post ) :
+			$image_id = get_post_thumbnail_id( $photo_post );
+			$image_url = get_the_post_thumbnail_url( $photo_post->ID, 'medium_large' );
+			$image_title = get_post_meta( $photo_post->ID, Registrations::get_meta_key( 'original_filename' ), true ) ?: __( '(unknown)', 'wporg-photos' );
+			$image_date = get_the_date( 'Y-m-d', $photo_post );
+			$image_caption = get_the_content( null, false, $photo_post ) ?: __( '(none provided)', 'wporg-photos' );
+			?>
+			<tr>
+				<td>
+					<span class="is-inline-label"><?php esc_html_e( 'File:', 'wporg-photos' ); ?></span>
+					<?php echo esc_html( $image_title ); ?>
+				</td>
+				<td>
+					<span class="is-inline-label"><?php esc_html_e( 'Submission date:', 'wporg-photos' ); ?></span>
+					<?php echo esc_html( $image_date ); ?>
+				</td>
+				<td>
+					<span class="is-inline-label"><?php esc_html_e( 'Caption:', 'wporg-photos' ); ?></span>
+					<?php echo esc_html( $image_caption ); ?>
+				</td>
+			</tr>
+		<?php endforeach; ?>
+		</tbody>
+	</table>
+</figure>
+<!-- /wp:table -->
