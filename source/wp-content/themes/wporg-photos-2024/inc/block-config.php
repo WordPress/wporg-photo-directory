@@ -23,6 +23,7 @@ add_filter( 'render_block_core/post-content', __NAMESPACE__ . '\inject_alt_text_
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_alt_text', 10, 3 );
 add_filter( 'render_block_core/post-featured-image', __NAMESPACE__ . '\inject_img_sizes', 10, 3 );
 add_filter( 'render_block_core/navigation-link', __NAMESPACE__ . '\inject_nav_download_attribute', 10, 2 );
+add_filter( 'render_block_core/site-title', __NAMESPACE__ . '\update_site_title' );
 add_filter( 'render_block_data', __NAMESPACE__ . '\avatar_set_favorites_user_id', 10, 2 );
 add_filter( 'render_block_data', __NAMESPACE__ . '\pattern_update_no_results', 10, 2 );
 
@@ -450,6 +451,19 @@ function inject_nav_download_attribute( $block_content, $block ) {
 	}
 
 	return $block_content;
+}
+
+/**
+ * Update the archive title for all filter views.
+ *
+ * @param string $block_content The block content.
+ */
+function update_site_title( $block_content ) {
+	return str_replace(
+		get_bloginfo( 'name' ),
+		__( 'Photos', 'wporg-photos' ),
+		$block_content
+	);
 }
 
 /**
