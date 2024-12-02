@@ -73,7 +73,7 @@ function document_title_separator() {
  * Add meta tags for richer social media integrations.
  */
 function add_social_meta_tags( $tags ) {
-	$default_image = '';
+	$default_image = 'https://wordpress.org/files/2024/12/photos-ogimage.png';
 	$site_title = function_exists( '\WordPressdotorg\site_brand' ) ? \WordPressdotorg\site_brand() : 'WordPress.org';
 	$blog_title = __( 'WordPress Photo Directory', 'wporg-photos' );
 	$description = __( 'Choose from a growing collection of free, CC0-licensed photos to customize and enhance your WordPress website.', 'wporg-photos' );
@@ -108,10 +108,13 @@ function add_social_meta_tags( $tags ) {
 		$tags['twitter:card']        = 'summary_large_image';
 
 		if ( has_post_thumbnail() ) {
-			$thumbnail = get_the_post_thumbnail_url( get_the_ID(), 'medium_large' );
-			$tags['og:image'] = esc_url( $thumbnail );
+			$photo_id = get_post_thumbnail_id();
+			$src = wp_get_attachment_image_src( $photo_id, 'medium_large' );
+			$tags['og:image'] = esc_url( $src[0] );
+			$tags['og:image:width'] = $src[1];
+			$tags['og:image:height'] = $src[2];
 			$tags['og:image:alt'] = $alt_text;
-			$tags['twitter:image'] = esc_url( $thumbnail );
+			$tags['twitter:image'] = esc_url( $src[0] );
 			$tags['twitter:image:alt'] = $alt_text;
 		}
 	} else {
