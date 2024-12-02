@@ -23,6 +23,7 @@
 			<!-- wp:wporg/query-filter {"key":"category","multiple":false} /-->
 			<!-- wp:wporg/query-filter {"key":"color"} /-->
 			<!-- wp:wporg/query-filter {"key":"orientation","multiple":false} /-->
+			<!-- wp:wporg/query-filter {"key":"sort","multiple":false} /-->
 		</div>
 		<!-- /wp:group -->
 	</div>

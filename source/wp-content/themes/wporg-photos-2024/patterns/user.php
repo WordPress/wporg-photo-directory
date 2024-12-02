@@ -24,8 +24,10 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"nowrap"}} -->
+<!-- wp:group {"align":"wide","style":{"spacing":{"blockGap":"var:preset|spacing|20"}},"layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between"}} -->
 <div class="wp-block-group alignwide">
 	<!-- wp:navigation {"menuSlug":"user","ariaLabel":"<?php esc_attr_e( 'User menu', 'wporg-photos' ); ?>","overlayMenu":"never","layout":{"type":"flex","orientation":"horizontal","justifyContent":"left","flexWrap":"nowrap"},"fontSize":"small","className":"is-style-button-list"} /-->
+	
+	<!-- wp:wporg/query-filter {"key":"sort","multiple":false} /-->
 </div>
 <!-- /wp:group -->

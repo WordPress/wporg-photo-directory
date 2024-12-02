@@ -91,6 +91,16 @@ function pre_get_posts( $query ) {
 		}
 		$query->set( 'tax_query', $tax_query );
 	}
+
+	if ( str_ends_with( $query->get( 'orderby' ), '_desc' ) ) {
+		$orderby = str_replace( '_desc', '', $query->get( 'orderby' ) );
+		$query->set( 'orderby', $orderby );
+		$query->set( 'order', 'desc' );
+	} else if ( str_ends_with( $query->get( 'orderby' ), '_asc' ) ) {
+		$orderby = str_replace( '_asc', '', $query->get( 'orderby' ) );
+		$query->set( 'orderby', $orderby );
+		$query->set( 'order', 'asc' );
+	}
 }
 
 /**
@@ -125,7 +135,7 @@ function override_template_hierarchy( $templates ) {
  */
 function redirect_term_archives() {
 	global $wp_query, $wp;
-	$url = false;
+	$url = '';
 
 	// Run through these variables in this order, the first one that is set will be used as the base URL.
 	$query_vars = [
@@ -137,10 +147,14 @@ function redirect_term_archives() {
 
 	if ( isset( $wp_query->query['photo_category'] ) && 'all' === $wp_query->query['photo_category'] ) {
 		unset( $wp_query->query['photo_category'] );
+		// Ensure that the redirect happens even if no other value is set.
+		$url = home_url();
 	}
 
 	if ( isset( $wp_query->query['photo_orientation'] ) && 'all' === $wp_query->query['photo_orientation'] ) {
 		unset( $wp_query->query['photo_orientation'] );
+		// Ensure that the redirect happens even if no other value is set.
+		$url = home_url();
 	}
 
 	// Return early if we're already on an author or browse page.
@@ -148,7 +162,6 @@ function redirect_term_archives() {
 		return;
 	}
 
-	$url = '';
 	foreach ( $query_vars as $qv => $path ) {
 		// Skip over any unset properties.
 		if ( ! isset( $wp_query->query[ $qv ] ) ) {
@@ -176,6 +189,10 @@ function redirect_term_archives() {
 			$value = 'photo_color' === $qv ? get_query_terms( $qv ) : $wp_query->query[ $qv ];
 			$url = add_query_arg( $qv, $value, $url );
 		}
+	}
+
+	if ( $url && isset( $wp_query->query['orderby'] ) ) {
+		$url = add_query_arg( 'orderby', $wp_query->query['orderby'], $url );
 	}
 
 	if ( $url ) {

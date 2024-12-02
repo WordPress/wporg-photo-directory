@@ -16,6 +16,7 @@ add_filter( 'wporg_block_navigation_menus', __NAMESPACE__ . '\add_navigation_men
 add_filter( 'wporg_query_filter_options_category', __NAMESPACE__ . '\get_category_options' );
 add_filter( 'wporg_query_filter_options_color', __NAMESPACE__ . '\get_color_options' );
 add_filter( 'wporg_query_filter_options_orientation', __NAMESPACE__ . '\get_orientation_options' );
+add_filter( 'wporg_query_filter_options_sort', __NAMESPACE__ . '\get_sort_options' );
 add_action( 'wporg_query_filter_in_form', __NAMESPACE__ . '\inject_other_filters', 10, 2 );
 add_filter( 'wporg_favorite_button_settings', __NAMESPACE__ . '\get_favorite_settings', 10, 2 );
 add_filter( 'render_block_wporg/link-wrapper', __NAMESPACE__ . '\inject_permalink_link_wrapper' );
@@ -232,7 +233,7 @@ function get_color_options( $options ) {
  * Provide a list of orientation options.
  *
  * @param array $options The options for this filter.
- * @return array New list of color options.
+ * @return array New list of orientation options.
  */
 function get_orientation_options( $options ) {
 	return get_single_query_filter_options(
@@ -288,6 +289,62 @@ function get_single_query_filter_options( $taxonomy, $label_args ) {
 }
 
 /**
+ * Provide a list of sort options.
+ *
+ * Currently supports sorting by date. Popular (by favorite count)
+ * will be added when more data is available.
+ *
+ * @param array $options The options for this filter.
+ * @return array New list of sort options.
+ */
+function get_sort_options( $options ) {
+	global $wp_query;
+	$orderby = strtolower( $wp_query->get( 'orderby', 'date' ) );
+	$order = strtolower( $wp_query->get( 'order', 'desc' ) );
+	$sort = $orderby . '_' . $order;
+
+	$label = __( 'Sort', 'wporg-photos' );
+	switch ( $sort ) {
+		case 'date_desc':
+			$label = __( 'Sort: Newest', 'wporg-photos' );
+			break;
+		case 'date_asc':
+			$label = __( 'Sort: Oldest', 'wporg-photos' );
+			break;
+	}
+
+	$options = array(
+		'date_desc' => __( 'Newest', 'wporg-photos' ),
+		'date_asc' => __( 'Oldest', 'wporg-photos' ),
+	);
+
+	// Sort can be on the archive page, author page, or a user's favorites.
+	// The submission URL needs to be adjusted accordingly.
+	$action_url = home_url( '/' );
+	if ( is_author() ) {
+		$user_obj = get_queried_object();
+		$tab = 'author';
+	} else {
+		// Returns false if not on a favorites page.
+		$user_obj = get_favorites_user();
+		$tab = 'favorites';
+	}
+	if ( is_a( $user_obj, 'WP_User' ) ) {
+		$user = $user_obj->user_nicename;
+		$action_url = home_url( "/$tab/$user/" );
+	}
+
+	return array(
+		'label' => $label,
+		'title' => __( 'Sort', 'wporg-photos' ),
+		'key' => 'orderby',
+		'action' => $action_url,
+		'options' => $options,
+		'selected' => [ $sort ],
+	);
+}
+
+/**
  * Add in the other existing filters as hidden inputs in the filter form.
  *
  * Enables combining filters by building up the correct URL on submit.
@@ -298,7 +355,7 @@ function get_single_query_filter_options( $taxonomy, $label_args ) {
 function inject_other_filters( $key, $block ) {
 	global $wp_query;
 
-	$query_vars = [ 'photo_category', 'photo_color', 'photo_orientation' ];
+	$query_vars = [ 'photo_category', 'photo_color', 'photo_orientation', 'orderby' ];
 	foreach ( $query_vars as $query_var ) {
 		if ( ! isset( $wp_query->query[ $query_var ] ) ) {
 			continue;
