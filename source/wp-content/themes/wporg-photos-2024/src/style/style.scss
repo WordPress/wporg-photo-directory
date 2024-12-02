@@ -26,6 +26,17 @@
 	border-color: var(--wp--preset--color--charcoal-1) !important;
 }
 
+/* Adjust heading sizes to use "inter" style sizes. */
+.has-heading-5-font-size {
+	font-size: var(--wp--custom--heading--level-5--inter--typography--font-size) !important;
+	line-height: var(--wp--custom--heading--level-5--inter--typography--line-height) !important;
+}
+
+.has-heading-6-font-size {
+	font-size: var(--wp--custom--heading--level-6--inter--typography--font-size) !important;
+	line-height: var(--wp--custom--heading--level-6--inter--typography--line-height) !important;
+}
+
 /* Both blocks are in the local header, but only one should be shown at any given time. */
 body.blog .wp-block-wporg-local-navigation-bar .wp-block-post-title,
 body.archive .wp-block-wporg-local-navigation-bar .wp-block-post-title,
