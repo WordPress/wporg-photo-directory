@@ -23,3 +23,11 @@ h1.screen-reader-text + .wp-block-query-no-results,
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
+
+/* Scroll the filters if they extend past the screen width. */
+@media (max-width: 889px) {
+	.wporg-query-filters {
+		max-width: 100%;
+		overflow-x: scroll;
+	}
+}
