@@ -100,6 +100,30 @@
 </div>
 <!-- /wp:group -->
 
+<!-- wp:separator {"className":"is-style-wide","style":{"spacing":{"margin":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"backgroundColor":"light-grey-1"} -->
+<hr class="wp-block-separator has-text-color has-light-grey-1-color has-alpha-channel-opacity has-light-grey-1-background-color has-background is-style-wide" style="margin-top:var(--wp--preset--spacing--40);margin-bottom:var(--wp--preset--spacing--40)"/>
+<!-- /wp:separator -->
+
+<!-- wp:group {"style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}}} -->
+<div class="wp-block-group" style="margin-top:var(--wp--preset--spacing--30)">
+	<!-- wp:paragraph {"style":{"typography":{"lineHeight":"1.28"}},"fontSize":"heading-3","fontFamily":"eb-garamond"} -->
+	<p class="has-eb-garamond-font-family has-heading-3-font-size" style="line-height:1.28"><?php echo wp_kses_post( __( '<em>Discover more</em> content submitted by the WordPress community', 'wporg-photos' ) ); ?></p>
+	<!-- /wp:paragraph -->
+
+	<!-- wp:buttons {"style":{"spacing":{"margin":{"top":"var:preset|spacing|40"}}},"layout":{"type":"flex"}} -->
+	<div class="wp-block-buttons" style="margin-top:var(--wp--preset--spacing--40)">
+		<!-- wp:button -->
+		<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/filters/' ) ); ?>"><?php esc_html_e( 'Browse the filters', 'wporg-photos' ); ?></a></div>
+		<!-- /wp:button -->
+
+		<!-- wp:button {"className":"is-style-outline"} -->
+		<div class="wp-block-button is-style-outline"><a class="wp-block-button__link wp-element-button" href="<?php echo esc_url( home_url( '/random/' ) ); ?>"><?php esc_html_e( 'Take me to a random photo', 'wporg-photos' ); ?></a></div>
+		<!-- /wp:button -->
+	</div>
+	<!-- /wp:buttons -->
+</div>
+<!-- /wp:group -->
+
 <!-- wp:spacer {"height":"60px","align":"wide","style":{"spacing":{"margin":{"top":"0","bottom":"0"}}}} -->
 <div style="margin-top:0;margin-bottom:0;height:60px" aria-hidden="true" class="wp-block-spacer alignwide"></div>
 <!-- /wp:spacer -->
