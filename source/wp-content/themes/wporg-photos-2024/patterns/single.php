@@ -34,8 +34,8 @@
 </div>
 <!-- /wp:group -->
 
-<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}},"backgroundColor":"light-grey-2"} -->
-<div class="wp-block-group alignwide has-light-grey-2-background-color has-background" style="margin-top:var(--wp--preset--spacing--30)">
+<!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}}} -->
+<div class="wp-block-group alignwide" style="margin-top:var(--wp--preset--spacing--30)">
 	<!-- wp:post-featured-image {"aspectRatio":"16/9","scale":"contain"} /-->
 </div>
 <!-- /wp:group -->
