@@ -71,12 +71,11 @@ function add_navigation_menu_main( $menus ) {
 			'className' => 'has-separator',
 		);
 	} else {
-		$favorite_user = get_favorites_user();
-		$is_user_favorites = $favorite_user && get_current_user_id() === $favorite_user->ID;
+		$user = wp_get_current_user();
 		$menu[] = array(
-			'label' => __( 'My favorites', 'wporg-photos' ),
-			'url' => '/favorites/',
-			'className' => ( $is_user_favorites ? 'current-menu-item ' : '' ) . 'has-separator',
+			'label' => __( 'My photos', 'wporg-photos' ),
+			'url' => "/author/$user->user_nicename/",
+			'className' => ( is_author( $user->ID ) ? 'current-menu-item ' : '' ) . 'has-separator',
 		);
 	}
 
@@ -166,14 +165,14 @@ function add_navigation_menu_user( $menus ) {
 
 	$menu = array(
 		array(
+			'label' => __( 'Contributions', 'wporg-photos' ),
+			'url' => "/author/$user/",
+			'className' => 'author' === $tab ? 'current-menu-item' : '',
+		),
+		array(
 			'label' => __( 'Favorites', 'wporg-photos' ),
 			'url' => "/favorites/$user/",
 			'className' => 'favorites' === $tab ? 'current-menu-item' : '',
-		),
-		array(
-			'label' => __( 'Contributed', 'wporg-photos' ),
-			'url' => "/author/$user/",
-			'className' => 'author' === $tab ? 'current-menu-item' : '',
 		),
 	);
 
