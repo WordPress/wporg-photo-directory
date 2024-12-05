@@ -12,8 +12,8 @@
 
 	<!-- wp:group {"style":{"spacing":{"blockGap":"var:preset|spacing|10"}},"layout":{"type":"flex","orientation":"vertical"}} -->
 	<div class="wp-block-group">
-		<!-- wp:heading {"level":1,"fontSize":"heading-3","metadata":{"bindings":{"content":{"source":"wporg-photos/user-name"}}}} -->
-		<h1 class="wp-block-heading has-heading-3-font-size">Username</h1>
+		<!-- wp:heading {"level":1,"metadata":{"bindings":{"content":{"source":"wporg-photos/user-name"}}}} -->
+		<h1 class="wp-block-heading">Username</h1>
 		<!-- /wp:heading -->
 
 		<!-- wp:paragraph {"metadata":{"bindings":{"content":{"source":"wporg-photos/user-link"}}}} -->
