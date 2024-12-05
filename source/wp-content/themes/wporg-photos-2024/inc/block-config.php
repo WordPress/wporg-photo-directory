@@ -68,6 +68,7 @@ function add_navigation_menu_main( $menus ) {
 		$menu[] = array(
 			'label' => __( 'Log in', 'wporg-photos' ),
 			'url' => wp_login_url( $redirect_url ),
+			'className' => 'has-separator',
 		);
 	} else {
 		$favorite_user = get_favorites_user();
@@ -75,7 +76,7 @@ function add_navigation_menu_main( $menus ) {
 		$menu[] = array(
 			'label' => __( 'My favorites', 'wporg-photos' ),
 			'url' => '/favorites/',
-			'className' => $is_user_favorites ? 'current-menu-item' : '',
+			'className' => ( $is_user_favorites ? 'current-menu-item ' : '' ) . 'has-separator',
 		);
 	}
 
