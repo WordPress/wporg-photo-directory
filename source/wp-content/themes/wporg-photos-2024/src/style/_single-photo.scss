@@ -49,3 +49,13 @@
 		color: var(--wp--preset--color--charcoal-4);
 	}
 }
+
+@media (max-width: 599px) {
+	body.single .wp-block-post-featured-image {
+		aspect-ratio: unset !important;
+
+		img {
+			max-height: 700px;
+		}
+	}
+}
