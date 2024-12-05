@@ -15,6 +15,8 @@
 			<!-- wp:wporg/query-total /-->
 		</div>
 		<!-- /wp:group -->
+
+		<!-- wp:wporg/query-filter {"key":"sort","multiple":false} /-->
 	</div>
 	<!-- /wp:group -->
 
