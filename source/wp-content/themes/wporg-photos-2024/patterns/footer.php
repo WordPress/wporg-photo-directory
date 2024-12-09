@@ -44,7 +44,7 @@
 					sprintf(
 						// translators: %s: URL to CC0 license information.
 						__( 'All photos are <a href="%s">CC0 licensed</a>. No rights are reserved, so you are free to use the photos anywhere, for any purpose, without the need for attribution.', 'wporg-photos' ),
-						esc_url( __( 'https://creativecommons.org/share-your-work/public-domain/cc0/', 'wporg-photos' ) )
+						esc_url( __( 'https://creativecommons.org/publicdomain/zero/1.0/', 'wporg-photos' ) )
 					)
 				);
 				?>

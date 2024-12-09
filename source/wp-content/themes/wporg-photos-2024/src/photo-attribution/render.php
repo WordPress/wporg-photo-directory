@@ -12,7 +12,7 @@ if ( ! $photo_post ) {
 $rtf_content = sprintf(
 	/* translators: 1: URL to CC0 license, 2: URL to photo's page, 3: URL to contributor's profile, 4: Contributor's display name, 5: URL to Photo Directory. */
 	__( '<a href="%1$s">CC0</a> licensed <a href="%2$s">photo</a> by <a href="%3$s">%4$s</a> from the <a href="%5$s">WordPress Photo Directory</a>.', 'wporg-photos' ),
-	'https://creativecommons.org/share-your-work/public-domain/cc0/',
+	'https://creativecommons.org/publicdomain/zero/1.0/',
 	esc_url( get_the_permalink( $photo_post->ID ) ),
 	esc_url( get_author_posts_url( get_the_author_meta( 'ID', $photo_post->post_author ) ) ),
 	esc_html( get_the_author_meta( 'display_name', $photo_post->post_author ) ),
@@ -21,7 +21,7 @@ $rtf_content = sprintf(
 $html_content = sprintf(
 	/* translators: 1: URL to CC0 license, 2: URL to photo's page, 3: URL to contributor's profile, 4: Contributor's display name, 5: URL to Photo Directory. */
 	htmlentities( '<p class="attribution">' . __( '<a href="%1$s">CC0</a> licensed <a href="%2$s">photo</a> by <a href="%3$s">%4$s</a> from the <a href="%5$s">WordPress Photo Directory</a>.', 'wporg-photos' ) . '</p>' ),
-	'https://creativecommons.org/share-your-work/public-domain/cc0/',
+	'https://creativecommons.org/publicdomain/zero/1.0/',
 	esc_url( get_the_permalink( $photo_post->ID ) ),
 	esc_url( get_author_posts_url( get_the_author_meta( 'ID', $photo_post->post_author ) ) ),
 	esc_html( get_the_author_meta( 'display_name', $photo_post->post_author ) ),
