@@ -5,7 +5,7 @@
 
 namespace WordPressdotorg\Theme\Photo_Directory_2024\SEO_Social_Meta;
 
-use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type};
+use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_favorites_user};
 
 add_filter( 'document_title_parts', __NAMESPACE__ . '\set_document_title' );
 add_filter( 'document_title_separator', __NAMESPACE__ . '\document_title_separator' );
@@ -40,7 +40,7 @@ function set_document_title( $title ) {
 		} elseif ( is_author() ) {
 			/* translators: Author name */
 			$title['title'] = sprintf( __( 'WordPress photo by %s', 'wporg-photos' ), $title['title'] );
-		} else {
+		} elseif ( ! get_favorites_user() ) {
 			$title['title'] = strip_tags( get_the_archive_title() );
 		}
 
@@ -96,6 +96,10 @@ function add_social_meta_tags( $tags ) {
 			__( 'WordPress photos by %s', 'wporg-photos' ),
 			get_the_author()
 		);
+	} else if ( get_favorites_user() ) {
+		// Default tags are okay, just update the image.
+		$tags['og:image']        = esc_url( $default_image );
+		$tags['og:image:alt']    = $blog_title;
 	} else if ( is_singular( get_photo_post_type() ) ) {
 		$sep = document_title_separator();
 		$title = join( ' ', [ $tags['og:title'], $sep, $blog_title ] );
