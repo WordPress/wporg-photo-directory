@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 2,
+  "name": "wporg/meta-list",
+  "version": "1.0.0-36cbde7",
+  "title": "Meta List",
+  "category": "design",
+  "icon": "",
+  "description": "Display a photo's metadata as a list.",
+  "textdomain": "wporg",
+  "attributes": {
+    "showLabel": {
+      "default": true,
+      "type": "boolean"
+    },
+    "meta": {
+      "type": "array"
+    }
+  },
+  "supports": {
+    "html": false,
+    "spacing": {
+      "margin": [
+        "top",
+        "bottom"
+      ]
+    }
+  },
+  "styles": [
+    {
+      "name": "default",
+      "label": "Default",
+      "isDefault": true
+    },
+    {
+      "name": "has-border",
+      "label": "Border"
+    }
+  ],
+  "usesContext": [
+    "postId"
+  ],
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css"
+}
