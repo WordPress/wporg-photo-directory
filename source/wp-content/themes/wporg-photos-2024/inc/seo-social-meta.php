@@ -40,7 +40,7 @@ function set_document_title( $title ) {
 		} elseif ( is_author() ) {
 			/* translators: Author name */
 			$title['title'] = sprintf( __( 'WordPress photo by %s', 'wporg-photos' ), $title['title'] );
-		} elseif ( ! get_favorites_user() ) {
+		} elseif ( is_archive() ) {
 			$title['title'] = strip_tags( get_the_archive_title() );
 		}
 
@@ -96,11 +96,11 @@ function add_social_meta_tags( $tags ) {
 			__( 'WordPress photos by %s', 'wporg-photos' ),
 			get_the_author()
 		);
-	} else if ( get_favorites_user() ) {
+	} elseif ( get_favorites_user() ) {
 		// Default tags are okay, just update the image.
 		$tags['og:image']        = esc_url( $default_image );
 		$tags['og:image:alt']    = $blog_title;
-	} else if ( is_singular( get_photo_post_type() ) ) {
+	} elseif ( is_singular( get_photo_post_type() ) ) {
 		$sep = document_title_separator();
 		$title = join( ' ', [ $tags['og:title'], $sep, $blog_title ] );
 		$alt_text = get_the_content( '', '', get_the_ID() );
@@ -121,7 +121,7 @@ function add_social_meta_tags( $tags ) {
 			$tags['twitter:image'] = esc_url( $src[0] );
 			$tags['twitter:image:alt'] = $alt_text;
 		}
-	} else {
+	} elseif ( is_archive() ) {
 		$tags['og:title']     = get_the_archive_title();
 		$tags['og:image']     = esc_url( $default_image );
 		$tags['og:image:alt'] = $blog_title;
