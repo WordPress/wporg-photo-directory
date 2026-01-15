@@ -500,7 +500,7 @@ function inject_img_sizes( $block_content, $block, $instance ) {
  * @return string The updated block.
  */
 function inject_nav_download_attribute( $block_content, $block ) {
-	if ( str_contains( $block['attrs']['className'], 'is-download-link' ) ) {
+	if ( ! empty( $block['attrs']['className'] ) && str_contains( $block['attrs']['className'], 'is-download-link' ) ) {
 		$html = \WP_HTML_Processor::create_fragment( $block_content );
 		if ( $html->next_tag( array( 'tag_name' => 'A' ) ) ) {
 			$html->set_attribute( 'download', true );
