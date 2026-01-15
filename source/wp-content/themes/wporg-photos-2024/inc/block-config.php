@@ -117,6 +117,10 @@ function add_navigation_menu_download( $menus ) {
 		$photo_meta = wp_get_attachment_metadata( $photo_id );
 		foreach ( array_keys( $photo_sizes ) as $size ) {
 			$src = wp_get_attachment_image_src( $photo_id, $size );
+			if ( ! $src ) {
+				unset( $photo_sizes[ $size ] );
+				continue;
+			}
 			if ( 'full' === $size ) {
 				$filesize = $photo_meta['filesize'] ?? '';
 			} else {
@@ -496,7 +500,7 @@ function inject_img_sizes( $block_content, $block, $instance ) {
  * @return string The updated block.
  */
 function inject_nav_download_attribute( $block_content, $block ) {
-	if ( str_contains( $block['attrs']['className'], 'is-download-link' ) ) {
+	if ( ! empty( $block['attrs']['className'] ) && str_contains( $block['attrs']['className'], 'is-download-link' ) ) {
 		$html = \WP_HTML_Processor::create_fragment( $block_content );
 		if ( $html->next_tag( array( 'tag_name' => 'A' ) ) ) {
 			$html->set_attribute( 'download', true );
