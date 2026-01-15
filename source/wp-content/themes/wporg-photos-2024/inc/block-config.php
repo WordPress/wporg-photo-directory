@@ -117,6 +117,9 @@ function add_navigation_menu_download( $menus ) {
 		$photo_meta = wp_get_attachment_metadata( $photo_id );
 		foreach ( array_keys( $photo_sizes ) as $size ) {
 			$src = wp_get_attachment_image_src( $photo_id, $size );
+			if ( ! $src ) {
+				continue;
+			}
 			if ( 'full' === $size ) {
 				$filesize = $photo_meta['filesize'] ?? '';
 			} else {
