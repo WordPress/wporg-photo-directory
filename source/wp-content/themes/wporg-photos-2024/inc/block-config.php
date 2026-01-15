@@ -118,6 +118,7 @@ function add_navigation_menu_download( $menus ) {
 		foreach ( array_keys( $photo_sizes ) as $size ) {
 			$src = wp_get_attachment_image_src( $photo_id, $size );
 			if ( ! $src ) {
+				unset( $photo_sizes[ $size ] );
 				continue;
 			}
 			if ( 'full' === $size ) {
