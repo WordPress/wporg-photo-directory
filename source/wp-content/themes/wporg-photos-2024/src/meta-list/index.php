@@ -88,7 +88,7 @@ function render( $attributes, $content, $block ) {
 		$meta_fields = array_filter(
 			$meta_fields,
 			function( $field ) use ( $attributes ) {
-				return in_array( $field['key'], $attributes['meta'] );
+				return in_array( $field['key'], $attributes['meta'], true );
 			}
 		);
 	}
