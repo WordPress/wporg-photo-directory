@@ -160,7 +160,7 @@ function get_value( $type, $key, $post_id ) {
 					$value = sprintf(
 						// translators: %s is the dimensions of the image in pixels.
 						__( '%s pixels', 'wporg-photos' ),
-						$image_src[1] . ' &times; ' . $image_src[2]
+						$image_src[1] . ' × ' . $image_src[2]
 					);
 				}
 			}
