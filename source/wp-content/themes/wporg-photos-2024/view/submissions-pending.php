@@ -30,7 +30,7 @@ $details = array(
 <p><?php echo wp_kses_post( implode( ' ', $details ) ); ?></p>
 <!-- /wp:paragraph -->
 
-<!-- wp:table {"hasFixedLayout":alse,"className":"wporg-submissions-pending__list","fontSize":"small"} -->
+<!-- wp:table {"hasFixedLayout":false,"className":"wporg-submissions-pending__list","fontSize":"small"} -->
 <figure class="wp-block-table has-small-font-size wporg-submissions-pending__list">
 	<table>
 		<thead><tr>

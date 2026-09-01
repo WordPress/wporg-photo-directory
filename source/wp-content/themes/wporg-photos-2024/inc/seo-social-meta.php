@@ -41,7 +41,7 @@ function set_document_title( $title ) {
 			/* translators: Author name */
 			$title['title'] = sprintf( __( 'WordPress photo by %s', 'wporg-photos' ), $title['title'] );
 		} elseif ( is_archive() ) {
-			$title['title'] = strip_tags( get_the_archive_title() );
+			$title['title'] = wp_strip_all_tags( get_the_archive_title() );
 		}
 
 		// If results are paged and the max number of pages is known.

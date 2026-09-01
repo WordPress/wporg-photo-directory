@@ -411,7 +411,7 @@ function get_favorite_settings( $settings, $post_id ) {
  * @return string The updated block.
  */
 function inject_permalink_link_wrapper( $block_content ) {
-	return str_replace( 'href=""', 'href="' . get_permalink() . '"', $block_content );
+	return str_replace( 'href=""', 'href="' . esc_url( get_permalink() ) . '"', $block_content );
 }
 
 /**

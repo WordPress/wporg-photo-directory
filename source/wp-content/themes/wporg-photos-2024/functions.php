@@ -169,7 +169,7 @@ function redirect_term_archives() {
 		// On the first pass, we have no URL, so we need to build it.
 		if ( ! $url ) {
 			if ( 's' === $qv ) {
-				$value = urlencode( $wp_query->query[ $qv ] );
+				$value = rawurlencode( $wp_query->query[ $qv ] );
 				$url = home_url( '/search/' . $value . '/' );
 			} else {
 				$values = get_query_terms( $qv );
