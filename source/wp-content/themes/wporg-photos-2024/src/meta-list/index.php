@@ -98,6 +98,11 @@ function render( $attributes, $content, $block ) {
 		$value = get_value( $type, $key, $block->context['postId'] );
 
 		if ( ! empty( $value ) ) {
+			// Only taxonomy values are markup; the post allow-list would grant the rest `data-*`.
+			$escaped_value = ( 'taxonomy' === $type )
+				? wp_kses( $value, array( 'a' => array( 'href' => true, 'rel' => true ) ) )
+				: esc_html( $value );
+
 			$list_items[] = sprintf(
 				'<li class="is-meta-%1$s">
 					<span%2$s>%3$s</span>
@@ -105,8 +110,8 @@ function render( $attributes, $content, $block ) {
 				</li>',
 				sanitize_title( $field['key'] ),
 				$show_label ? '' : ' class="screen-reader-text"',
-				$field['label'],
-				wp_kses_post( $value )
+				esc_html( $field['label'] ),
+				$escaped_value
 			);
 		}
 	}

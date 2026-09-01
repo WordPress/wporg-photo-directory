@@ -25,7 +25,7 @@ function init() {
 				}
 
 				if ( is_a( $user, 'WP_User' ) ) {
-					return $user->display_name;
+					return esc_html( $user->display_name );
 				}
 			},
 		)
