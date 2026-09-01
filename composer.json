@@ -8,7 +8,7 @@
 	},
 	"config": {
 		"platform": {
-			"php": "7.4"
+			"php": "8.4"
 		},
 		"allow-plugins": {
 			"composer/installers": true,
@@ -79,16 +79,6 @@
 					}
 				},
 				{
-					"name": "wordpress-meta/wporg-photos",
-					"type": "wordpress-theme",
-					"version": "1",
-					"source": {
-						"type": "svn",
-						"url": "https://meta.svn.wordpress.org/sites/",
-						"reference": "trunk/wordpress.org/public_html/wp-content/themes/pub/wporg-photos/"
-					}
-				},
-				{
 					"name": "wordpress-plugin/frontend-uploader",
 					"type": "wordpress-plugin",
 					"version": "1",
@@ -105,14 +95,11 @@
 		"composer/installers": "~1.0",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
 		"phpcompatibility/phpcompatibility-wp": "*",
-		"phpunit/phpunit": "^7.5.20",
 		"wordpress-meta/pub": "1",
 		"wordpress-meta/photo-directory": "1",
 		"wordpress-meta/wporg": "1",
-		"wordpress-meta/wporg-photos": "1",
 		"wordpress-plugin/frontend-uploader": "1",
 		"wp-coding-standards/wpcs": "^3.4.1",
-		"wp-phpunit/wp-phpunit": "^5.4",
 		"wpackagist-plugin/gutenberg": "*",
 		"wpackagist-plugin/jetpack": "*",
 		"wpackagist-plugin/wordpress-importer": "*",
