@@ -447,8 +447,9 @@ function inject_img_alt_text( $block_content, $block, $instance ) {
 
 	$html = \WP_HTML_Processor::create_fragment( $block_content );
 	if ( $html->next_tag( array( 'tag_name' => 'IMG' ) ) ) {
-		$alt_text = get_the_content( '', '', $post_id );
-		$html->set_attribute( 'alt', esc_attr( $alt_text ) );
+		// set_attribute() takes plain text and escapes it, but post content is stored as HTML.
+		$alt_text = \WP_HTML_Decoder::decode_text_node( get_post_field( 'post_content', $post_id ) );
+		$html->set_attribute( 'alt', $alt_text );
 	}
 
 	return (string) $html;
