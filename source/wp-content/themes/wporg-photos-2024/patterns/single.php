@@ -36,7 +36,7 @@
 
 <!-- wp:group {"align":"wide","style":{"spacing":{"margin":{"top":"var:preset|spacing|30"}}}} -->
 <div class="wp-block-group alignwide" style="margin-top:var(--wp--preset--spacing--30)">
-	<!-- wp:post-featured-image {"aspectRatio":"16/9","scale":"contain"} /-->
+	<!-- wp:post-featured-image {"aspectRatio":"3/2","scale":"contain"} /-->
 </div>
 <!-- /wp:group -->
 
