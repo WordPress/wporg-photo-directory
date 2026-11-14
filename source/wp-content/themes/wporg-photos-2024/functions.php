@@ -16,6 +16,7 @@ require_once( __DIR__ . '/src/photo-attribution/index.php' );
 // Actions & filters.
 add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_assets' );
 add_action( 'pre_get_posts', __NAMESPACE__ . '\pre_get_posts' );
+add_filter( 'posts_clauses', __NAMESPACE__ . '\sort_by_favorites', 10, 2 );
 add_filter( 'frontpage_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
 add_filter( 'search_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
 add_filter( 'archive_template_hierarchy', __NAMESPACE__ . '\override_template_hierarchy' );
@@ -99,6 +100,31 @@ function pre_get_posts( $query ) {
 		$query->set( 'orderby', $orderby );
 		$query->set( 'order', 'asc' );
 	}
+}
+
+/**
+ * Sorts the main query by how many users favorited each photo, most first.
+ *
+ * Photos nobody has favorited have no count, so they come last instead of being left out.
+ *
+ * @param string[] $clauses Query clauses.
+ * @param WP_Query $query   Query object.
+ * @return string[]
+ */
+function sort_by_favorites( $clauses, $query ) {
+	global $wpdb;
+
+	if ( is_admin() || ! $query->is_main_query() || 'favorites' !== $query->get( 'orderby' ) ) {
+		return $clauses;
+	}
+
+	$clauses['join'] .= $wpdb->prepare(
+		" LEFT JOIN {$wpdb->postmeta} AS favorites_count ON ( favorites_count.post_id = {$wpdb->posts}.ID AND favorites_count.meta_key = %s )",
+		Photo_Directory\Favorites::META_KEY_FAVORITES_COUNT
+	);
+	$clauses['orderby'] = "CAST( favorites_count.meta_value AS UNSIGNED ) DESC, {$wpdb->posts}.post_date DESC";
+
+	return $clauses;
 }
 
 /**
