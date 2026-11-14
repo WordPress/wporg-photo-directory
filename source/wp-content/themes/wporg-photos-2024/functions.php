@@ -218,7 +218,7 @@ function redirect_filters_page() {
 }
 
 /**
- * Swap the photo title (a generated ID) for a more human-friendly title.
+ * Swap the photo title (a generated ID) for an excerpt of its description.
  *
  * @param string $post_title The post title.
  * @param int    $post_id    The post ID.
@@ -227,7 +227,9 @@ function redirect_filters_page() {
  */
 function filter_photo_title( $post_title, $post_id ) {
 	if ( ! is_admin() && get_photo_post_type() === get_post_type( $post_id ) ) {
-		return __( 'Photo detail', 'wporg-photos' );
+		$excerpt = get_photo_description_excerpt( $post_id );
+
+		return $excerpt ? $excerpt : __( 'Photo detail', 'wporg-photos' );
 	}
 	return $post_title;
 }
