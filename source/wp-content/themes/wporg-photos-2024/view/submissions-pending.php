@@ -34,6 +34,7 @@ $details = array(
 <figure class="wp-block-table has-small-font-size wporg-submissions-pending__list">
 	<table>
 		<thead><tr>
+			<th><?php esc_html_e( 'Photo', 'wporg-photos' ); ?></th>
 			<th><?php esc_html_e( 'File', 'wporg-photos' ); ?></th>
 			<th><?php esc_html_e( 'Submission date', 'wporg-photos' ); ?></th>
 			<th><?php esc_html_e( 'Caption', 'wporg-photos' ); ?></th>
@@ -42,12 +43,27 @@ $details = array(
 		<?php
 		foreach ( $pending as $photo_post ) :
 			$image_id = get_post_thumbnail_id( $photo_post );
-			$image_url = get_the_post_thumbnail_url( $photo_post->ID, 'medium_large' );
 			$image_title = get_post_meta( $photo_post->ID, Registrations::get_meta_key( 'original_filename' ), true ) ?: __( '(unknown)', 'wporg-photos' );
 			$image_date = get_the_date( 'Y-m-d', $photo_post );
 			$image_caption = get_the_content( null, false, $photo_post ) ?: __( '(none provided)', 'wporg-photos' );
 			?>
 			<tr>
+				<td class="wporg-submissions-pending__photo">
+					<?php
+					if ( $image_id ) {
+						// The file name sits next to the image, so it is not announced twice.
+						echo wp_get_attachment_image(
+							$image_id,
+							'medium',
+							false,
+							array(
+								'alt'   => '',
+								'sizes' => '120px',
+							)
+						);
+					}
+					?>
+				</td>
 				<td>
 					<span class="is-inline-label"><?php esc_html_e( 'File:', 'wporg-photos' ); ?></span>
 					<?php echo esc_html( $image_title ); ?>

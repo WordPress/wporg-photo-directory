@@ -16,6 +16,14 @@
 		display: none;
 	}
 
+	.wporg-submissions-pending__photo img {
+		display: block;
+		width: 120px;
+		max-width: none;
+		height: auto;
+		border-radius: 2px;
+	}
+
 	@media (max-width: 600px) {
 		thead {
 			display: none;
