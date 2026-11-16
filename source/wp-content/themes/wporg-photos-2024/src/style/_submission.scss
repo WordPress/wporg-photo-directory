@@ -78,6 +78,12 @@
 	}
 
 	.ugc-help {
+		font-size: var(--wp--preset--font-size--small);
+		line-height: var(--wp--custom--body--small--typography--line-height);
+		margin-top: var(--wp--preset--spacing--10);
+	}
+
+	#ug_content_help {
 		margin-top: 0;
 	}
 
