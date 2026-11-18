@@ -295,8 +295,7 @@ function get_single_query_filter_options( $taxonomy, $label_args ) {
 /**
  * Provide a list of sort options.
  *
- * Currently supports sorting by date. Popular (by favorite count)
- * will be added when more data is available.
+ * Supports sorting by date and by favorites count.
  *
  * @param array $options The options for this filter.
  * @return array New list of sort options.
@@ -315,11 +314,15 @@ function get_sort_options( $options ) {
 		case 'date_asc':
 			$label = __( 'Sort: Oldest', 'wporg-photos' );
 			break;
+		case 'favorites_desc':
+			$label = __( 'Sort: Most favorited', 'wporg-photos' );
+			break;
 	}
 
 	$options = array(
 		'date_desc' => __( 'Newest', 'wporg-photos' ),
 		'date_asc' => __( 'Oldest', 'wporg-photos' ),
+		'favorites_desc' => __( 'Most favorited', 'wporg-photos' ),
 	);
 
 	// Sort can be on the archive page, author page, or a user's favorites.
