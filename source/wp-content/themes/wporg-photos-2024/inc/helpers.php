@@ -52,3 +52,14 @@ function get_favorites_user() {
 	}
 	return false;
 }
+
+/**
+ * Returns a short plain-text excerpt of a photo's description, for use as its title.
+ *
+ * @param int|\WP_Post $post Photo post ID or object.
+ *
+ * @return string Description excerpt, or an empty string if the photo has no description.
+ */
+function get_photo_description_excerpt( $post ) {
+	return wp_trim_words( get_post_field( 'post_content', $post ), 8 );
+}

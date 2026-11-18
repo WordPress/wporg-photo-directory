@@ -5,7 +5,7 @@
 
 namespace WordPressdotorg\Theme\Photo_Directory_2024\SEO_Social_Meta;
 
-use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_favorites_user};
+use function WordPressdotorg\Theme\Photo_Directory_2024\{get_photo_post_type, get_favorites_user, get_photo_description_excerpt};
 
 add_filter( 'document_title_parts', __NAMESPACE__ . '\set_document_title' );
 add_filter( 'document_title_separator', __NAMESPACE__ . '\document_title_separator' );
@@ -35,8 +35,13 @@ function set_document_title( $title ) {
 		$title['tagline'] = __( 'WordPress.org', 'wporg-photos' );
 	} else {
 		if ( is_singular( get_photo_post_type() ) ) {
-			/* translators: Photo identifier (e.g., 7886743cf0) */
-			$title['title'] = sprintf( __( 'WordPress photo %s', 'wporg-photos' ), $title['title'] );
+			$excerpt = get_photo_description_excerpt( get_queried_object() );
+			if ( $excerpt ) {
+				$title['title'] = $excerpt;
+			} else {
+				/* translators: Photo identifier (e.g., 7886743cf0) */
+				$title['title'] = sprintf( __( 'WordPress photo %s', 'wporg-photos' ), $title['title'] );
+			}
 		} elseif ( is_author() ) {
 			/* translators: Author name */
 			$title['title'] = sprintf( __( 'WordPress photo by %s', 'wporg-photos' ), $title['title'] );
